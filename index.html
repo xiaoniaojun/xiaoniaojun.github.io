@@ -334,6 +334,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -361,7 +383,7 @@
       
         
           
-            <h1 id="走近科学：揭秘Context"><a href="#走近科学：揭秘Context" class="headerlink" title="走近科学：揭秘Context"></a>走近科学：揭秘Context</h1><h2 id="Activity可以new吗？"><a href="#Activity可以new吗？" class="headerlink" title="Activity可以new吗？"></a>Activity可以new吗？</h2><p><code>Activity mActivity = new Activity();</code><br>可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？</p>
+            <h2 id="Activity可以new吗？"><a href="#Activity可以new吗？" class="headerlink" title="Activity可以new吗？"></a>Activity可以new吗？</h2><p><code>Activity mActivity = new Activity();</code><br>可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？</p>
 <p>Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行需要有一个完整的Android工程环境。只有在这个环境下，Activity、Service等系统组件才能正常工作。不过这些组件并不能采取普通的Java对象创建的方式，new一下就能创建实例了。它们的建立需要有各自的上下文环境，而这就是我们要讨论的Context。</p>
 <p>Context是维持Andoird程序各组件能正常工作的一个核心功能类。</p>
 <h2 id="Context到底是什么？"><a href="#Context到底是什么？" class="headerlink" title="Context到底是什么？"></a>Context到底是什么？</h2><p><strong>Context的字面意思是“语境”、“上下文”，可以理解为当前对象在程序中的一个环境，一个与系统交互的过程。</strong>比如微信聊天，此时的context是指聊天界面以及相关的数据请求与传输。<strong>Context在加载资源、启动Activity、获取系统服务、创建View等操作都要参与。</strong></p>
@@ -612,13 +634,22 @@
           
 
           
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
 
           
             
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
