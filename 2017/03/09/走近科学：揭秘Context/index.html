@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android Context," />
 
 
 
@@ -87,15 +87,25 @@
 
 
 
-<meta name="description" content="千里之行，始于足下 —— 老子">
-<meta property="og:type" content="website">
-<meta property="og:title" content="爱鸟人士">
-<meta property="og:url" content="http://xiaoniaojun.github.io/index.html">
+<meta name="description" content="走近科学：揭秘Context[TOC]
+##Activity可以new吗？Activity mActivity = new Activity();可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？
+Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。And">
+<meta property="og:type" content="article">
+<meta property="og:title" content="走近科学：揭秘Context">
+<meta property="og:url" content="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context/index.html">
 <meta property="og:site_name" content="爱鸟人士">
-<meta property="og:description" content="千里之行，始于足下 —— 老子">
+<meta property="og:description" content="走近科学：揭秘Context[TOC]
+##Activity可以new吗？Activity mActivity = new Activity();可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？
+Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。And">
+<meta property="og:image" content="http://xiaoniaojun.github.io/media/14889393602119/14889413298331.jpg">
+<meta property="og:image" content="http://xiaoniaojun.github.io/media/14889393602119/14889426118849.jpg">
+<meta property="og:updated_time" content="2017-03-09T05:42:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱鸟人士">
-<meta name="twitter:description" content="千里之行，始于足下 —— 老子">
+<meta name="twitter:title" content="走近科学：揭秘Context">
+<meta name="twitter:description" content="走近科学：揭秘Context[TOC]
+##Activity可以new吗？Activity mActivity = new Activity();可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？
+Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。And">
+<meta name="twitter:image" content="http://xiaoniaojun.github.io/media/14889393602119/14889413298331.jpg">
 
 
 
@@ -123,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaoniaojun.github.io/"/>
+  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context/"/>
 
 
 
 
 
-  <title> 爱鸟人士 </title>
+  <title> 走近科学：揭秘Context | 爱鸟人士 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -154,9 +164,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -239,9 +247,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -271,10 +279,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/03/09/走近科学：揭秘Context/" itemprop="url">
-                  走近科学：揭秘Context
-                </a>
+                走近科学：揭秘Context
               
             
           </h1>
@@ -325,9 +330,7 @@
       
 
       
-        
-          
-            <h1 id="走近科学：揭秘Context"><a href="#走近科学：揭秘Context" class="headerlink" title="走近科学：揭秘Context"></a>走近科学：揭秘Context</h1><p>[TOC]</p>
+        <h1 id="走近科学：揭秘Context"><a href="#走近科学：揭秘Context" class="headerlink" title="走近科学：揭秘Context"></a>走近科学：揭秘Context</h1><p>[TOC]</p>
 <p>##Activity可以new吗？<br><code>Activity mActivity = new Activity();</code><br>可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？</p>
 <p>Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行需要有一个完整的Android工程环境。只有在这个环境下，Activity、Service等系统组件才能正常工作。不过这些组件并不能采取普通的Java对象创建的方式，new一下就能创建实例了。它们的建立需要有各自的上下文环境，而这就是我们要讨论的Context。</p>
 <p>Context是维持Andoird程序各组件能正常工作的一个核心功能类。</p>
@@ -374,165 +377,66 @@
 <li>尽量不要在Activity中使用非静态内部类和匿名类，因为它们会持有外部实例的引用。而静态内部类会将外部引用作用为弱引用持有。</li>
 </ol>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/09/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ruby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="爱鸟人士">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/09/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-09T11:12:40+08:00">
-                2017-03-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/Android-Context/" rel="tag"># Android Context</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/09/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -540,6 +444,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -559,8 +467,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -613,6 +530,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#走近科学：揭秘Context"><span class="nav-number">1.</span> <span class="nav-text">走近科学：揭秘Context</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -725,6 +658,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
