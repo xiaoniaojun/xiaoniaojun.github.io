@@ -97,7 +97,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
 Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行">
 <meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/md14889413298331.jpg">
 <meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/md14889426118849.jpg">
-<meta property="og:updated_time" content="2017-03-10T03:23:42.000Z">
+<meta property="og:updated_time" content="2017-03-10T03:29:15.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="走近科学：揭秘Context">
 <meta name="twitter:description" content="Activity可以new吗？Activity mActivity = new Activity();可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？
@@ -385,7 +385,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
       
         <h2 id="Activity可以new吗？"><a href="#Activity可以new吗？" class="headerlink" title="Activity可以new吗？"></a>Activity可以new吗？</h2><p><code>Activity mActivity = new Activity();</code><br>可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？</p>
 <p>Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行需要有一个完整的Android工程环境。只有在这个环境下，Activity、Service等系统组件才能正常工作。不过这些组件并不能采取普通的Java对象创建的方式，new一下就能创建实例了。它们的建立需要有各自的上下文环境，而这就是我们要讨论的Context。</p>
-<p>Context是维持Andoird程序各组件能正常工作的一个核心功能类。</p>
+<p>Context是维持Andoird程序各组件能正常工作的一个核心功能类。<br><a id="more"></a></p>
 <h2 id="Context到底是什么？"><a href="#Context到底是什么？" class="headerlink" title="Context到底是什么？"></a>Context到底是什么？</h2><p><strong>Context的字面意思是“语境”、“上下文”，可以理解为当前对象在程序中的一个环境，一个与系统交互的过程。</strong>比如微信聊天，此时的context是指聊天界面以及相关的数据请求与传输。<strong>Context在加载资源、启动Activity、获取系统服务、创建View等操作都要参与。</strong></p>
 <p><strong>那Android中的Context到底是什么呢？一个Activity就是一个Context，一个Service也是一个Context。Android设计者把“应用场景”抽象为了Context类，认为用户和操作系统的每一种交互都是一个场景。</strong>比如打电话、发短信、这些都是一个有界面的场景。还有一些没有界面的场景，比如后台运行的服务（Service）。一个应用程序可以认为是一个工作环境，用户在这个工作环境中会切换到不同的场景。它就像一个公司的前台秘书，可能需要接待客人，可能要打印文件，还可能要接听客户电话。而这些任务就可以称之为不同的场景，这个前台秘书可以称之为一个应用程序。</p>
 <p>其实，Context也可以看做是一个应用与系统交互的中间层。在Android的源码中，对Context的注释文档说明：</p>
@@ -490,7 +490,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/09/s/" rel="prev" title="s">
+              <a href="/2017/03/09/test/" rel="prev" title="s">
                 s <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -556,7 +556,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
                alt="Ruby" />
           <p class="site-author-name" itemprop="name">Ruby</p>
            
-              <p class="site-description motion-element" itemprop="description">Share I can.感谢先辈们无私奉献自己的知识。</p>
+              <p class="site-description motion-element" itemprop="description">Share I can<br>感谢先辈们无私奉献自己的知识</p>
           
         </div>
         <nav class="site-state motion-element">
