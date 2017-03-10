@@ -90,7 +90,7 @@
 <meta name="description" content="Share I can感谢先辈们无私奉献自己的知识">
 <meta property="og:type" content="website">
 <meta property="og:title" content="爱鸟人士">
-<meta property="og:url" content="http://xiaoniaojun.github.io/index.html">
+<meta property="og:url" content="http://xiaoniaojun.github.io/tags/性能优化/index.html">
 <meta property="og:site_name" content="爱鸟人士">
 <meta property="og:description" content="Share I can感谢先辈们无私奉献自己的知识">
 <meta name="twitter:card" content="summary">
@@ -123,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaoniaojun.github.io/"/>
+  <link rel="canonical" href="http://xiaoniaojun.github.io/tags/性能优化/"/>
 
 
 
 
 
-  <title> 爱鸟人士 </title>
+  <title> 标签: 性能优化 | 爱鸟人士 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -154,9 +154,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-right  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -273,305 +271,45 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/10/cj03c96xi0000xfo6tg0cibhv/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ruby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="爱鸟人士">
-    </span>
+  <div id="posts" class="posts-collapse">
+    <div class="collection-title">
+      <h2 >
+        性能优化
+        <small>标签</small>
+      </h2>
+    </div>
 
     
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/10/cj03c96xi0000xfo6tg0cibhv/" itemprop="url">
-                  Android内存泄漏分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-10T12:44:28+08:00">
-                2017-03-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
-      
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
         
-          <h1 id="Android内存泄漏分析"><a href="#Android内存泄漏分析" class="headerlink" title="Android内存泄漏分析"></a>Android内存泄漏分析</h1><h2 id="具体的垃圾回收机制"><a href="#具体的垃圾回收机制" class="headerlink" title="具体的垃圾回收机制"></a>具体的垃圾回收机制</h2><h3 id="四种引用类型的介绍"><a href="#四种引用类型的介绍" class="headerlink" title="四种引用类型的介绍"></a>四种引用类型的介绍</h3><ul>
-<li>强引用（Strong Reference）：JVM宁可抛出OOM，也不会让GC回收具有强引用的对象；</li>
-<li>软引用（Soft Reference）：只有在内存空间不足时，才被回收的对象；</li>
-<li>软引用（Weak Reference）：在GC时，一旦发现了只具有若引用的对象，不管当前内存空间是否充足，都会回收它的内存；</li>
-<li>虚引用（Phantom Reference）：任何时候都可以被GC回收。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否存在该对象的虚引用，来了解这个对象是否需要回收。</li>
-</ul>
-<p><em>我们常说的内存泄漏是指new出来的Object无法被GC回收，即为强引用。</em><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/10/cj03c96xi0000xfo6tg0cibhv/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="post-title-link" href="/2017/03/10/cj03c96xi0000xfo6tg0cibhv/" itemprop="url">
+              
+                <span itemprop="name">Android内存泄漏分析</span>
+              
             </a>
-          </div>
-          <!--/noindex-->
         
-      
-    </div>
+      </h1>
 
-    <div>
-      
-    </div>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-03-10T12:44:28+08:00"
+              content="2017-03-10" >
+          03-10
+        </time>
+      </div>
 
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
+    </header>
   </article>
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/09/cj03c96xn0001xfo6w0m5kj4f/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ruby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="爱鸟人士">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/09/cj03c96xn0001xfo6w0m5kj4f/" itemprop="url">
-                  走近科学：揭秘Context
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-09T13:41:28+08:00">
-                2017-03-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="Activity可以new吗？"><a href="#Activity可以new吗？" class="headerlink" title="Activity可以new吗？"></a>Activity可以new吗？</h2><p><code>Activity mActivity = new Activity();</code><br>可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？</p>
-<p>Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行需要有一个完整的Android工程环境。只有在这个环境下，Activity、Service等系统组件才能正常工作。不过这些组件并不能采取普通的Java对象创建的方式，new一下就能创建实例了。它们的建立需要有各自的上下文环境，而这就是我们要讨论的Context。</p>
-<p>Context是维持Andoird程序各组件能正常工作的一个核心功能类。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/09/cj03c96xn0001xfo6w0m5kj4f/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
+  </div>
 
   
 
