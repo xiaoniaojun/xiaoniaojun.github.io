@@ -95,14 +95,14 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
 <meta property="og:site_name" content="爱鸟人士">
 <meta property="og:description" content="Activity可以new吗？Activity mActivity = new Activity();可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？
 Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行">
-<meta property="og:image" content="http://xiaoniaojun.github.io/走近科学：揭秘Context/14889413298331.jpg">
-<meta property="og:image" content="http://xiaoniaojun.github.io/走近科学：揭秘Context/14889426118849.jpg">
+<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context/14889413298331.jpg">
+<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context/14889426118849.jpg">
 <meta property="og:updated_time" content="2017-03-09T08:01:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="走近科学：揭秘Context">
 <meta name="twitter:description" content="Activity可以new吗？Activity mActivity = new Activity();可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？
 Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行">
-<meta name="twitter:image" content="http://xiaoniaojun.github.io/走近科学：揭秘Context/14889413298331.jpg">
+<meta name="twitter:image" content="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context/14889413298331.jpg">
 
 
 
@@ -392,7 +392,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
 <blockquote>
 <p>它是一个抽象类，它的执行被Android系统所提供。它允许获取以应用为特征的资源和类型，是一个统领一些资源（应用程序环境变量等）的上下文。就是说，它描述一个应用程序环境的信息（即上下文）；是一个抽象类，Android提供了该抽象类的具体实现类；通过它我们可以获取应用程序的资源和类（包括应用级别操作，如启动Activity，发广播，接受Intent等）。</p>
 </blockquote>
-<h2 id="Context的实现类"><a href="#Context的实现类" class="headerlink" title="Context的实现类"></a>Context的实现类</h2><p>既然源码中说明了它是一个抽象类，那么肯定就有它的实现类咯。Context的实现类可以形成如下的关系图：<br><img src="走近科学：揭秘Context/14889413298331.jpg" alt=""><br>Context类本身是一个纯抽象类，它有两个具体的实现子类：ContextImpl和ContextWrapper。熟悉设计模式的应该可以反应过来，其实就是个装饰者模式的类图。</p>
+<h2 id="Context的实现类"><a href="#Context的实现类" class="headerlink" title="Context的实现类"></a>Context的实现类</h2><p>既然源码中说明了它是一个抽象类，那么肯定就有它的实现类咯。Context的实现类可以形成如下的关系图：<br><img src="/2017/03/09/走近科学：揭秘Context/14889413298331.jpg" alt=""><br>Context类本身是一个纯抽象类，它有两个具体的实现子类：ContextImpl和ContextWrapper。熟悉设计模式的应该可以反应过来，其实就是个装饰者模式的类图。</p>
 <p>其中ContextWrapper只是一个包装类。它的构造函数中必须包含一个真正的Context引用，同时ContextWrapper提供了attachBaseContext()用于给ContextWrapper对象中执行真正的Context对象。ContextWrapper中的方法都会被转向其所包含的真正的Context对象。</p>
 <p>ContextThemeWrapper类的内部包含了与主题（Theme）相关的接口。这里说的主题就是指在AndroidManifest.xml中，通过android:theme为Application元素或者Activity元素指定的主题。当然，因为只有Activity有可视化界面，Service没有，所以只有Activity才需要主题，因此Service是直接继承与ContextWrapper的，Application同理。</p>
 <p>而ContextImpl类才真正实现了Context中的所有方法。应用程序中调用的各种Context类的方法，其实现均来自于该类。</p>
@@ -402,7 +402,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
 <p>有人会问，Boradcast Receiver，Content Provider呢？它们并不是Context的子类，其所持有的Context都是其他地方传递过去的，所以并不增加Context总数。</p>
 <h2 id="Context到底能干什么？"><a href="#Context到底能干什么？" class="headerlink" title="Context到底能干什么？"></a>Context到底能干什么？</h2><p>Context能实现的功能就太多了，弹出Toast、启动和操作四大组件、获取资源等等都需要Context。</p>
 <h2 id="Context作用域"><a href="#Context作用域" class="headerlink" title="Context作用域"></a>Context作用域</h2><p>虽然Context地位崇高、能力强大，但是并不是随便拿一个Context就能为所欲为的。Context的具体是由ContextImpl实现的，因此绝大多数的场景中，Activity、Service、Application这三种Context都是可以通用的。不过有几种场景比较特殊，比如启动Activity和弹出Dialog。因为一个Activity的启动必须要建立在另一个Activity的基础之上，也就是以此形成返回栈。而Dialog则必须在一个Activity上面弹出（除了System Alert类型的Dialog），因此，Activity类型的Context的用途是最广的。</p>
-<p><img src="走近科学：揭秘Context/14889426118849.jpg" alt=""></p>
+<p><img src="/2017/03/09/走近科学：揭秘Context/14889426118849.jpg" alt=""></p>
 <p>这里说一下上图中Application和Service所不推荐的两种使用情况。</p>
 <p>1.如果我们用ApplicationContext去启动一个LaunchMode为standard的Activity的时候会报错android.util.AndroidRuntimeException: Calling startActivity from outside of an Activity context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?这是因为非Activity类型的Context并没有所谓的任务栈，所以待启动的Activity就找不到栈了。解决这个问题的方法就是为待启动的Activity指定FLAG_ACTIVITY_NEW_TASK标记位，这样启动的时候就为它创建一个新的任务栈，而此时Activity是以singleTask模式启动的。所有这种用Application启动Activity的方式不推荐使用，Service同Application。</p>
 <p>2.在Application和Service中去layout inflate也是合法的，但是会使用系统默认的主题样式，如果你自定义了某些样式可能不会被使用。所以这种方式也不推荐使用。</p>
@@ -494,6 +494,10 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/03/09/s/" rel="prev" title="s">
+                s <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -564,7 +568,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
