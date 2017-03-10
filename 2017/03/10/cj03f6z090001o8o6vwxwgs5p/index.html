@@ -94,7 +94,7 @@
 虚引用（Phantom Re">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android内存泄漏分析">
-<meta property="og:url" content="http://xiaoniaojun.github.io/2017/03/10/cj03ew0re0000bvo6w55w4omh/index.html">
+<meta property="og:url" content="http://xiaoniaojun.github.io/2017/03/10/cj03f6z090001o8o6vwxwgs5p/index.html">
 <meta property="og:site_name" content="爱鸟人士">
 <meta property="og:description" content="Android内存泄漏分析具体的垃圾回收机制四种引用类型的介绍
 强引用（Strong Reference）：JVM宁可抛出OOM，也不会让GC回收具有强引用的对象；
@@ -121,7 +121,7 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: '0',
+      userId: '6395317980992898000',
       author: '博主'
     },
     algolia: {
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/03/10/cj03ew0re0000bvo6w55w4omh/"/>
+  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/03/10/cj03f6z090001o8o6vwxwgs5p/"/>
 
 
 
@@ -305,7 +305,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/10/cj03ew0re0000bvo6w55w4omh/">
+    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/10/cj03f6z090001o8o6vwxwgs5p/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ruby">
@@ -376,6 +376,16 @@
           
 
           
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/10/cj03f6z090001o8o6vwxwgs5p/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/10/cj03f6z090001o8o6vwxwgs5p/" itemprop="commentCount"></span>
+                </a>
+              </span>
             
           
 
@@ -512,7 +522,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/09/cj03ew0rj0002bvo6k01ca1il/" rel="next" title="走近科学：揭秘Context">
+              <a href="/2017/03/09/cj03f6z0c0003o8o6q7t3f317/" rel="next" title="走近科学：揭秘Context">
                 <i class="fa fa-chevron-left"></i> 走近科学：揭秘Context
               </a>
             
@@ -535,6 +545,44 @@
 
     <div class="post-spread">
       
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
     </div>
   </div>
 
@@ -545,6 +593,10 @@
 
           
   <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/10/cj03f6z090001o8o6vwxwgs5p/"
+           data-title="Android内存泄漏分析" data-url="http://xiaoniaojun.github.io/2017/03/10/cj03f6z090001o8o6vwxwgs5p/">
+      </div>
     
   </div>
 
@@ -792,32 +844,43 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xiaoniaojun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
   
 
 
 
 
-	
 
 
 
 
 
-  
 
-
-
-
-
-  
-
-
-
-
-
-  
 
 
 
