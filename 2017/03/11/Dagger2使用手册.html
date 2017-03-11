@@ -1,0 +1,1078 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Dagger2,依赖注入,DI," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="参考文章：Dagger2入门，以初学者的角度
+
+在项目中引入Dagger2step 1. 在项目build.gradle文件中添加apt插件：
+1234567891011121314buildscript &amp;#123;    ...    dependencies &amp;#123;        classpath &apos;com.android.tools.build:gradle:2.3.0&apos;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dagger2使用手册">
+<meta property="og:url" content="http://xiaoniaojun.github.io/2017/03/11/Dagger2使用手册.html">
+<meta property="og:site_name" content="爱鸟人士">
+<meta property="og:description" content="参考文章：Dagger2入门，以初学者的角度
+
+在项目中引入Dagger2step 1. 在项目build.gradle文件中添加apt插件：
+1234567891011121314buildscript &amp;#123;    ...    dependencies &amp;#123;        classpath &apos;com.android.tools.build:gradle:2.3.0&apos;">
+<meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/image/using-dagger2/14891488314200.jpg">
+<meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/image/using-dagger2/14892039668349.jpg">
+<meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/image/using-dagger2/14892076175522.jpg">
+<meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/image/using-dagger2/14892107902494.jpg">
+<meta property="og:updated_time" content="2017-03-11T08:13:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dagger2使用手册">
+<meta name="twitter:description" content="参考文章：Dagger2入门，以初学者的角度
+
+在项目中引入Dagger2step 1. 在项目build.gradle文件中添加apt插件：
+1234567891011121314buildscript &amp;#123;    ...    dependencies &amp;#123;        classpath &apos;com.android.tools.build:gradle:2.3.0&apos;">
+<meta name="twitter:image" content="http://omkwoeinb.bkt.clouddn.com/image/using-dagger2/14891488314200.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6395317980992898000',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/03/11/Dagger2使用手册.html"/>
+
+
+
+
+
+  <title> Dagger2使用手册 | 爱鸟人士 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">爱鸟人士</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">for my bird</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/11/Dagger2使用手册.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ruby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱鸟人士">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Dagger2使用手册
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-11T15:59:57+08:00">
+                2017-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/11/Dagger2使用手册.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/11/Dagger2使用手册.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>参考文章：<br><a href="http://www.jianshu.com/p/1d84ba23f4d2" target="_blank" rel="external">Dagger2入门，以初学者的角度</a></p>
+</blockquote>
+<h1 id="在项目中引入Dagger2"><a href="#在项目中引入Dagger2" class="headerlink" title="在项目中引入Dagger2"></a>在项目中引入Dagger2</h1><p>step 1. 在项目build.gradle文件中添加apt插件：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        <span class="keyword">classpath</span> <span class="string">'com.android.tools.build:gradle:2.3.0'</span></div><div class="line">        </div><div class="line">        <span class="comment">// <span class="doctag">NOTE:</span> Do not place your application dependencies here; they belong</span></div><div class="line">        <span class="comment">// in the individual module build.gradle files</span></div><div class="line">        <span class="comment">// 添加apt插件</span></div><div class="line">        <span class="keyword">classpath</span> <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.8'</span></div><div class="line">        </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
+<p>step2. 在app目录下的build.gradle文件中添加：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//应用apt插件</span></div><div class="line">apply plugin: <span class="string">'com.neenbedankt.android-apt'</span></div><div class="line"></div><div class="line">...</div><div class="line">dependencies &#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 引入dagger2</span></div><div class="line">    compile <span class="string">'com.google.dagger:dagger:2.4'</span></div><div class="line">    apt <span class="string">'com.google.dagger:dagger-compiler:2.4'</span></div><div class="line">    <span class="comment">//java注解</span></div><div class="line">    provided <span class="string">'org.glassfish:javax.annotation:10.0-b28'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="入门篇"><a href="#入门篇" class="headerlink" title="入门篇"></a>入门篇</h1><h2 id="Dagger2基本用法-——-使用Moudle类"><a href="#Dagger2基本用法-——-使用Moudle类" class="headerlink" title="Dagger2基本用法 —— 使用Moudle类"></a>Dagger2基本用法 —— 使用Moudle类</h2><p>现在我们有个需求，要在MainActivity中使用Car对象。那么用依赖注入的方法要怎么实现呢？首先我们来看看其中较复杂但功能也较强大的方式是如何实现的：</p>
+<h3 id="1-首先编写一个依赖对象类Car"><a href="#1-首先编写一个依赖对象类Car" class="headerlink" title="1. 首先编写一个依赖对象类Car"></a>1. 首先编写一个依赖对象类Car</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Car</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String car;</div><div class="line">    </div><div class="line">    <span class="keyword">public</span> Car(String brand) &#123;</div><div class="line">        <span class="keyword">this</span>.car = brand;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">public</span> String getCar() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.car;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">public</span> void setColor(String color) &#123;</div><div class="line">        <span class="keyword">this</span>.car = color;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> String toString() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"一辆"</span> + <span class="keyword">this</span>.car;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>该类包含一个属性car。</p>
+<h3 id="2-编写Moudle类"><a href="#2-编写Moudle类" class="headerlink" title="2. 编写Moudle类"></a>2. 编写Moudle类</h3><p>Moudle类被用于向对象需求方MainActivity提供依赖对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Module</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainModule</span> </span>&#123;</div><div class="line">    <span class="meta">@Provides</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getCar</span><span class="params">()</span> </span>&#123;</div><div class="line">        Car car = <span class="keyword">new</span> Car(<span class="string">"BWM"</span>);</div><div class="line">        <span class="keyword">return</span> car;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这就是一个简单的Module实现。注意到代码中有两个注解：<code>@Module</code>和<code>@Provides</code>。其中<code>@Module</code>用来向Dagger2标明这是一个Module类，<code>@Provides</code>是用来标记Module类中，哪些方法是用来提供依赖对象的。后面我们还会编写一个Component接口，需求对象需要实现这个Component接口才可以被注入对象。而当Component实现类需要依赖对象时，它会根据Moudle类中<code>@Provides</code>方法的返回值类型来选择应该调用哪个方法获取对象。</p>
+<h3 id="3-编写Component接口"><a href="#3-编写Component接口" class="headerlink" title="3. 编写Component接口"></a>3. 编写Component接口</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span>(modules=MainMoudle.<span class="keyword">class</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MainComponent</span> &#123;</span></div><div class="line">    <span class="keyword">void</span> inject(MainActivity mainActivity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同样，Component接口需要用<code>@Component</code>注解标注，但是<code>@Component</code>的注解具备更强大的功能，它有modules和dependencies两个属性，这两个属性的类型都是Class数组。modules是用来申明该Component含有几个Moudle，当Component需要某个依赖对象时，就会去这些Moudle类中寻找相应的<code>@Provides</code>方法。dependency属性，则是生命Component类的依赖关系，稍后再详细解释。</p>
+<p>接口中的inject方法是干嘛的呢？inject方法被用来将需求对象MainActivity送入Component类，Component类会根据需求对象中声明的依赖关系来注入需求对象所需要的依赖对象。需求对象MainActivity中需要依赖对象Car，所以我们通过inject方法将MainActivity的实例传入到MainComponent中，MainComponent就会从MainModule中的getCar方法中获取实例，并将该实例赋值给MainActivity中声明的依赖对象字段。</p>
+<p><em>需要注意的是，inject方法的参数不能用父类来接收。</em></p>
+<h3 id="4-在需求对象中声明依赖关系"><a href="#4-在需求对象中声明依赖关系" class="headerlink" title="4. 在需求对象中声明依赖关系"></a>4. 在需求对象中声明依赖关系</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="type">TextView</span> tvHello;</div><div class="line">    <span class="meta">@Inject</span></div><div class="line">    <span class="type">Car</span> car;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</div><div class="line">        tvHello = (<span class="type">TextView</span>) findViewById(<span class="type">R</span>.id.tv_hello);</div><div class="line">        </div><div class="line">        <span class="type">MainComponent</span> build = <span class="type">DaggerMainComponent</span>.builder().mainMoudle(<span class="keyword">new</span> <span class="type">MainModule</span>()).build();</div><div class="line">        build.inject(<span class="keyword">this</span>);</div><div class="line">        tvHello.setText(<span class="string">"我买了"</span> + car);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码中，<code>@Inject</code>注解用来声明依赖，Dagger2中所有的依赖对象都是通过<code>@Inject</code>注解声明的。但是，<code>@Inject</code>注解的字段不能是private和protected。</p>
+<p>其次，Dagger2会帮我们自动生成Component的实现类。创建这个类时，需要提供Moudle类的实例。要强调的是，我们需要在编写完Component接口之后，使用rebuild重新生成项目，Dagger2才会帮我们创建好对应的类。</p>
+<p>之后，将需求对象，此处为this，传递给inject方法。之后，你就会发现，<code>@Inject</code>注解的字段已经被赋值，而该对象就是我们在Moudle的getCar方法中创建的那个对象。</p>
+<p><img src="http://omkwoeinb.bkt.clouddn.com/image/using-dagger2/14891488314200.jpg" alt=""></p>
+<h2 id="最简单的用法"><a href="#最简单的用法" class="headerlink" title="最简单的用法"></a>最简单的用法</h2><p>怎么tm这么麻烦？就tm赋个值就写这么多代码？怕是还不如不用依赖注入方便呢。别急，对于这种简单地依赖情形，我们还有更简单的方法。</p>
+<h3 id="创建依赖类"><a href="#创建依赖类" class="headerlink" title="创建依赖类"></a>创建依赖类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Insurance</span> </span>&#123;</div><div class="line">    <span class="meta">@Inject</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Insurance</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"一份保险"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这次，我们直接在依赖类的构造函数上面添加了<code>@Inject</code>注解。当Component在所拥有的Moudle类中找不到需求方需要的类型时，Dagger2就会检查需要的类型有没有被<code>@Inject</code>声明的构造方法，有则用该构造方法去创建一个。</p>
+<p>同样，要将这个对象注入到需求方中，也需要在需求方实现代码中添加字段声明并用<code>@Inject</code>注解。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="meta">@Inject</span></div><div class="line">    <span class="type">Insurance</span> insurance;</div><div class="line">    ...</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    protect void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">        ...</div><div class="line">        tvHello.setText(<span class="string">"我买了"</span> + car + <span class="string">"和"</span> + insurance);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>是不是很简单？那为什么不都用这种方法呢？<br>不过，如果我们使用别人的jar包，是不能修改别人的代码去添加注解的，所以不得不通过Module类来提供对象。</p>
+<h2 id="应对依赖的依赖"><a href="#应对依赖的依赖" class="headerlink" title="应对依赖的依赖"></a>应对依赖的依赖</h2><p>上面的例子中，我们创建的这些依赖类都不用依赖于其他的类。但是，如果需要依赖于其他依赖类，又要怎么使用呢？</p>
+<p>首先我们来创建一个类Driver：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Driver</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Car car;</div><div class="line">    <span class="keyword">private</span> String driver;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Driver</span><span class="params">(Car car,String name)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.car = car;</div><div class="line">        driver = name;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getCar</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> car;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"老司机"</span> + driver + <span class="string">"有一辆"</span> + car;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个Driver类依赖于Car对象，如果我们要在MainActivity中需要注入Driver对象，又该怎么办呢？</p>
+<h3 id="在Module类中增加Provide方法："><a href="#在Module类中增加Provide方法：" class="headerlink" title="在Module类中增加Provide方法："></a>在Module类中增加Provide方法：</h3><p>首先我们会自然地想到在Moudle类中添加如下的方法：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Provides</span></div><div class="line"><span class="keyword">public</span> <span class="function">Driver <span class="title">getDriver</span><span class="params">()</span> </span>&#123;</div><div class="line">    Car car = <span class="keyword">new</span> Car(<span class="string">"BWM"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Driver(<span class="string">"BWM"</span>,<span class="string">"小明"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样的确是可以的，不过我们之前就已经创建了一个提供Car对象的方法，能不能直接利用起来呢？<br>Dagger2提供了这种功能，我们只需要在getDriver的方法中，添加Car参数，Dagger2会自动地像帮助需求对象查找依赖对象那样，找到该方法依赖的Car实例。所以我们的代码可以写成这样：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Provides</span></div><div class="line"><span class="keyword">public</span> <span class="function">Driver <span class="title">getDriver</span><span class="params">(Car car)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Driver(car,<span class="string">"小明"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样，我们就可以在MainActivity注入依赖啦。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="type">TextView</span> mTVHello;</div><div class="line">    <span class="meta">@Inject</span></div><div class="line">    <span class="type">Driver</span> driver;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</div><div class="line"></div><div class="line">        mTVHello = (<span class="type">TextView</span>) findViewById(<span class="type">R</span>.id.tv_Hello);</div><div class="line"></div><div class="line">        <span class="type">MainComponent</span> build = <span class="type">DaggerMainComponent</span>.builder().mainModule(<span class="keyword">new</span> <span class="type">MainModule</span>()).build();</div><div class="line">        build.inject(<span class="keyword">this</span>);</div><div class="line">        mTVHello.setText(driver.toString());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://omkwoeinb.bkt.clouddn.com/image/using-dagger2/14892039668349.jpg" alt=""></p>
+<p>不光如此，带有<code>@Inject</code>注解的构造函数，若是需要依赖于其他对象，Dagger2也会根据这个规则为你自动注入。</p>
+<h2 id="Dagger2依赖提供规则总结"><a href="#Dagger2依赖提供规则总结" class="headerlink" title="Dagger2依赖提供规则总结"></a>Dagger2依赖提供规则总结</h2><figure class="highlight scilab"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//伪代码</span></div><div class="line"><span class="function"><span class="keyword">function</span><span class="params">(依赖对象)</span> &#123;</span></div><div class="line">    <span class="keyword">if</span> (查找Moudle类中是否存在创建依赖对象的方法)&#123;</div><div class="line">        <span class="comment">//如果存在</span></div><div class="line">        <span class="keyword">if</span> (检查该方法是否存在参数) &#123;</div><div class="line">            <span class="comment">//如果有参数，则递归调用寻找注入方法 </span></div><div class="line">            <span class="function"><span class="keyword">function</span><span class="params">(参数中的依赖对象)</span></span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">//如果没有参数，就直接初始化该实例</span></div><div class="line">            <span class="keyword">return</span> 成功注入一次</div><div class="line">        &#125;</div><div class="line">    &#125; </div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// 如果不存在创建依赖的方法，就查找带Inject注解的构造函数，看是构造函数是否存在参数</span></div><div class="line">        <span class="keyword">if</span> (存在参数) &#123;</div><div class="line">            <span class="comment">// 存在参数就去找能否注入</span></div><div class="line">            <span class="function"><span class="keyword">function</span><span class="params">(参数中的对象)</span></span></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// 不存参数，直接初始化</span></div><div class="line">            <span class="keyword">return</span> 成功注入一次</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，Dagger2会递归地提供依赖。</p>
+<h1 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h1><h2 id="Name和-Qulifier"><a href="#Name和-Qulifier" class="headerlink" title="@Name和@Qulifier"></a>@Name和@Qulifier</h2><h3 id="Named"><a href="#Named" class="headerlink" title="@Named"></a>@Named</h3><p>最近小明发了大财，于是买了一辆梦寐以求的限量版法拉利。</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//在Module类中修改</span></div><div class="line"><span class="meta">@Provides</span></div><div class="line"><span class="keyword">public</span> <span class="function">Car <span class="title">getBWMCar</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Car(<span class="string">"BWM"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Provides</span></div><div class="line"><span class="keyword">public</span> <span class="function">Car <span class="title">getFerrariCar</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Car(<span class="string">"限量版法拉利"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们将小明的法拉利添加到了Moudle中。不过，我们之前提到过，Dagger2是依靠返回值来确定注入对象的。现在我们有两台Car，小明要怎么开上自己最新买的法拉利呢？</p>
+<p>Dagger2为我们提供了<code>@Name</code>注解。<br>它有一个参数value，用来区别相同类型的依赖对象。下面的代码展示了如何使用<code>@Name</code>注解：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//在Module中</span></div><div class="line"><span class="variable">@Provides</span></div><div class="line"><span class="variable">@Named</span>(<span class="string">"BWM"</span>)</div><div class="line">public Car getBWMCar() &#123;</div><div class="line">    <span class="selector-tag">return</span> <span class="selector-tag">new</span> <span class="selector-tag">Car</span>(<span class="string">"BWM"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">@<span class="selector-tag">Provides</span></div><div class="line">@<span class="selector-tag">Named</span>(<span class="string">"Ferrari"</span>)</div><div class="line"><span class="selector-tag">public</span> <span class="selector-tag">Car</span> <span class="selector-tag">getFerrariCar</span>() &#123;</div><div class="line">    <span class="selector-tag">return</span> <span class="selector-tag">new</span> <span class="selector-tag">Car</span>(<span class="string">"限量版法拉利"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，通过<code>@Named</code>注解，我们为相同返回类型的Provides方法，命名加以区分。</p>
+<p>在Module类中，也通过<code>@Named</code>注解来标注该调用哪个提供方法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="type">TextView</span> mTVHello;</div><div class="line"></div><div class="line">    <span class="meta">@Inject</span></div><div class="line">    <span class="meta">@Named</span>(<span class="string">"BWM"</span>)</div><div class="line">    <span class="type">Car</span> bwmCar;</div><div class="line">    <span class="meta">@Inject</span></div><div class="line">    <span class="meta">@Named</span>(<span class="string">"Ferrari"</span>)</div><div class="line">    <span class="type">Car</span> ferrariCar;</div><div class="line">    </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">        ...</div><div class="line">        mTVHello.setText(<span class="string">"小明现在有"</span> + bwmCar + <span class="string">"和"</span> + ferrariCar);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Qulifier"><a href="#Qulifier" class="headerlink" title="@Qulifier"></a>@Qulifier</h3><p><code>@Qulifier</code>的功能和<code>@Name</code>一样，并且，<code>@Name</code>继承于<code>@Qulifier</code>。那么如何使用<code>@Qulifier</code>呢？需要自定义注解：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Qualifier</span></div><div class="line"><span class="variable">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line">public <span class="variable">@interface</span> BWM() &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>效果和<code>@Named(value)</code>是一样的。<br>在Module中的Provide方法中标注<code>@BWM</code>注解就可以了。</p>
+<p>另外，这个两个注解可以用在依赖参数上，比如</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Provides</span></div><div class="line">public Driver getDriver(<span class="variable">@Named</span>(<span class="string">"Ferrari"</span>) car) &#123;</div><div class="line">    <span class="selector-tag">return</span> <span class="selector-tag">new</span> <span class="selector-tag">Driver</span>(car, <span class="string">"小明"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Singleton和-Scope"><a href="#Singleton和-Scope" class="headerlink" title="@Singleton和@Scope"></a>@Singleton和@Scope</h2><h3 id="Singleton"><a href="#Singleton" class="headerlink" title="@Singleton"></a>@Singleton</h3><p>小明出车祸了，法拉利撞得面目全非，不过幸好人没出事，没几天就出院了。出院的小明回到家中，看到家门口有一辆和自己一模一样的法拉利，竟然完好无损！这是怎么回事呢？</p>
+<p><em>Module类中的小明和法拉利：</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Module</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainModule</span> </span>&#123;</div><div class="line">    <span class="meta">@Provides</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Car <span class="title">getFerrariCar</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Car(<span class="string">"限量版法拉利"</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@Provides</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Driver <span class="title">getDriver</span><span class="params">(Car car)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Driver(car, <span class="string">"小明"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><em>接着在MainActivity中声明：</em></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="type">TextView</span> mTVHello;</div><div class="line">    <span class="meta">@Inject</span></div><div class="line">    <span class="type">Car</span> car;</div><div class="line">    <span class="meta">@Inject</span></div><div class="line">    <span class="type">Driver</span> driver;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> savedInstanceState) &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(<span class="type">R</span>.layout.activity_main);</div><div class="line"></div><div class="line">        mTVHello = (<span class="type">TextView</span>) findViewById(<span class="type">R</span>.id.tv_Hello);</div><div class="line"></div><div class="line">        <span class="type">MainComponent</span> build = <span class="type">DaggerMainComponent</span>.builder().mainModule(<span class="keyword">new</span> <span class="type">MainModule</span>()).build();</div><div class="line">        build.inject(<span class="keyword">this</span>);</div><div class="line">        mTVHello.setText(<span class="string">"这个car是小明的法拉利吗？"</span>+(car == driver.getCar()));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://omkwoeinb.bkt.clouddn.com/image/using-dagger2/14892076175522.jpg" alt=""></p>
+<p>原来这辆车是隔壁老王的。</p>
+<p>通过这个例子可以发现，我们在MainActivity中注入的Car和Driver中注入的Car并不是同一个对象。在注入过程中，调用了两次创建依赖对象的方法。</p>
+<p>那么，如果需要MainActivity中的Car对象和Driver中的Car对象是同一个对象，又要怎么办呢？Dagger2中，使用<code>@Singleton</code>注解可以实现这个需求:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Singleton</span></div><div class="line"><span class="variable">@Provides</span></div><div class="line">public Car getFerrariCar() &#123;</div><div class="line">    <span class="selector-tag">return</span> <span class="selector-tag">new</span> <span class="selector-tag">Car</span>(<span class="string">"限量版法拉利"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同时，需要在MainComponent接口中添加该注解：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Singleton</span></div><div class="line"><span class="variable">@Component</span>(modules=MainModule.class)</div><div class="line">public interface MainComponent&#123;</div><div class="line">    <span class="selector-tag">void</span> <span class="selector-tag">inject</span>(MainActivity mainActivity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://omkwoeinb.bkt.clouddn.com/image/using-dagger2/14892107902494.jpg" alt=""></p>
+<h3 id="Scope"><a href="#Scope" class="headerlink" title="@Scope"></a>@Scope</h3><p><code>@Scope</code>用来申明作用范围，其实<code>@Singleton</code>就是基于它来实现的。使用它的时候，也需要自定义注解：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Scope</span></div><div class="line"><span class="variable">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line">public <span class="variable">@interface</span> PerActivity &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>之后将Module中的Provide方法打上@PerActivity，就可以将该方法包含在PerActivity作用范围之内。<strong>别忘了在Component接口上也要使用这个注解</strong></p>
+<p>这个作用范围有什么用呢？在Dagger2里面，同一作用范围内的Provide方法，在需要生成多个依赖对象时，都只会被调用一次，因此，需求方得到的以来对象实例就会是同一个实例。(只有在Moudle类中声明了作用范围的Provide方法才会有这样的行为)</p>
+<p>Dagger2提供这个注解的目的在于可以让我们自定义作用范围名，提高代码的可读性。</p>
+<p>**Note：</p>
+<ol>
+<li>在通过构造函数提供依赖的方式中，需要将作用范围在类名上注解，而不是在构造方法上。</li>
+<li>只有在同一个Component实例下提供依赖才能实现Singleton。**</li>
+</ol>
+<h2 id="组件依赖Dependencies"><a href="#组件依赖Dependencies" class="headerlink" title="组件依赖Dependencies"></a>组件依赖Dependencies</h2><p>开发中，如果遇到工具类这种，在整个APP生命周期中都是单例的情形该怎么处理呢？</p>
+<p>首先添加一个工具类：</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CarMarket</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> Driver deal(Car car, <span class="keyword">String</span> buyer) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Driver</span>(car, buyer);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接着建立一个BaseModule来提供工具类：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Module</span></div><div class="line">public class BaseModule &#123;</div><div class="line">    <span class="variable">@Singleton</span></div><div class="line">    <span class="variable">@Provides</span></div><div class="line">    public CarMarket getCarMarket() &#123;</div><div class="line">        <span class="selector-tag">return</span> <span class="selector-tag">new</span> <span class="selector-tag">CarMarket</span>();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再创建一个接口：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Singleton</span></div><div class="line"><span class="variable">@Component</span>(modules = BaseModule.class)</div><div class="line">public interface BaseComponent &#123;</div><div class="line">    <span class="selector-tag">ClothHandler</span> <span class="selector-tag">getClothHandler</span>();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Q:这个Component为什么没有inject方法呢？<br>A:因为BaseComponent这个接口是给其他Component提供依赖的，具体注入由子Component类提供。这里仅仅是告诉其子类BaseComponent能提供这个ClothHandler对象，因此，它不需要inject方法。</p>
+<p>接下来，在MainComponent和SecondComponent两个子类中声明依赖。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@PerActivity</span></div><div class="line"><span class="meta">@Component</span>(modules=MainModule.<span class="keyword">class</span>,dependencies=BaseComponent.<span class="keyword">class</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MainComponent</span> &#123;</span></div><div class="line">    <span class="keyword">void</span> inject(MainActivity mainActivity);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@PerActivity</span></div><div class="line"><span class="meta">@Component</span>(modules=SecondModule.<span class="keyword">class</span>,dependencies=BaseComponent.<span class="keyword">class</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SecondComponent</span> &#123;</span></div><div class="line">    <span class="keyword">void</span> inject(SecondActivity secondActivity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此时，rebuild工程就可以看到，创建MainComponent和SecondComponent实例的时候，多了一个baseComponent方法。</p>
+<p>我们需要为这个BaseComponent传递一个实例。如果要保证两个子Component能获取同一个BaseComponent实例，有一种方法是：自定义一个Application类。</p>
+<blockquote>
+<p>Q:如何保证某个对象在App生命周期中只有一个实例？<br>A:使用静态工厂，或者自定义一个Application类。</p>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 在Application中持有baseComponent，</span></div><div class="line"><span class="comment">// 从而获得一个在整个App生命周期内仅有的baseComponent实例，</span></div><div class="line"><span class="comment">// 这样做还有个隐含好处：</span></div><div class="line"><span class="comment">// BaseModule中需要Context对象的时候，可以直接传入this。</span></div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="type">BaseComponent</span> baseComponent;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    public void onCreate() &#123;</div><div class="line">        <span class="keyword">super</span>.onCreate();</div><div class="line">        baseComponent = <span class="type">DaggerBaseComponent</span>.builder().baseModule(<span class="keyword">new</span> <span class="type">BaseModule</span>()).build();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    public <span class="type">BaseComponent</span> getBaseComponent() &#123;</div><div class="line">        <span class="keyword">return</span> baseComponent;</div><div class="line">    &#125;   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>创建完自定义类后，还需要在AndroidManifest.xml中声明新建的MyApplication:</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">&lt;<span class="built_in">application</span></div><div class="line">    android:<span class="built_in">name</span> = <span class="string">".MyApplication"</span></div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
+<p>接下来，在MainActivity和SecondActivity中，只需要在构建子Component实例中这样调用就行了:</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="symbol">MainComponent</span> <span class="keyword">build </span>= DaggerMainComponent.<span class="keyword">builder().baseComponent((MyApplication)getApplication()).getBaseComponent())</span></div></pre></td></tr></table></figure>
+<h2 id="Subcomponent注解"><a href="#Subcomponent注解" class="headerlink" title="@Subcomponent注解"></a>@Subcomponent注解</h2><p><code>@Subcomponent</code>注解和dependencies类似，但是<code>@Subcomponent</code>使用起来有点不同，需要在父组件(BaseComponent)中声明一个返回值为子组件（SubComponent）的方法。当子组件需要什么Moudle时，就在该方法中添加该类型的参数：</p>
+<p>子组件接口应该改为使用<code>@Subcomponent</code></p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@PerActivity</span></div><div class="line"><span class="variable">@Subcomponent</span>(modules=MainModule.class)</div><div class="line">public interface SubComponent &#123;</div><div class="line">    <span class="selector-tag">void</span> <span class="selector-tag">inject</span>(MainActivity activity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在父组件中需要声明一个提供子组件的方法：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Singleton</span></div><div class="line"><span class="variable">@Component</span>(modules=BaseModule.class)</div><div class="line">public interface BaseComponent &#123;</div><div class="line">    <span class="selector-tag">CarMarket</span> <span class="selector-tag">getCarMarket</span>();</div><div class="line">    <span class="comment">// @Subcomponent关键点</span></div><div class="line">    <span class="selector-tag">SubComponent</span> <span class="selector-tag">getSubComponent</span>(MainModule module);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>之后调用注入的时候，指定要使用的Module就行了。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MyApplication application = (MyApplication) getApplication();</div><div class="line">    application.getBaseComponent().getSubComponent(<span class="keyword">new</span> MainModule()).<span class="keyword">inject</span>(<span class="keyword">this</span>);</div></pre></td></tr></table></figure>
+<p>使用这个方法同样可以实现单例，因为BaseComponent是同一个实例。</p>
+<p>##Lazy和Provider包装容器<br>这两个容器是用来包装依赖对象的。注入时，如果用这两个容器包装依赖对象，Lazy容器懒加载方式就会只在你需要用到该依赖对象的时候才会去获取一个；而Provider容器的对象不光具有Lazy特性，而且每次要用到的时候，都会重新调用生成依赖对象的方法注入。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//在需求类中</span></div><div class="line"><span class="variable">@Inject</span></div><div class="line">Lazy&lt;Car&gt; car;</div><div class="line"><span class="variable">@Inject</span></div><div class="line">Provider&lt;Driver&gt; driver;</div></pre></td></tr></table></figure>
+<p>不过，如果声明了单例，Provider也就失去了意义。</p>
+<p>##Component生命周期<br>一般情况下，都是在Activity中的onCreate方法中创建Component实例，再调用inject完成依赖注入。</p>
+<p>在onCreate()方法调用完成之后，Component实例就会因为没有被引用而被GC，其中Module实例也会被一并回收。不过，使用Lazy和Provider时，与该依赖对象有关的Module实例会被引用，这个Moudle实例将不会被回收。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin.png" alt="Ruby WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao.png" alt="Ruby Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Dagger2/" rel="tag"># Dagger2</a>
+          
+            <a href="/tags/依赖注入/" rel="tag"># 依赖注入</a>
+          
+            <a href="/tags/DI/" rel="tag"># DI</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/10/Android内存泄漏分析.html" rel="next" title="Android内存泄漏分析">
+                <i class="fa fa-chevron-left"></i> Android内存泄漏分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/11/Dagger2使用手册.html"
+           data-title="Dagger2使用手册" data-url="http://xiaoniaojun.github.io/2017/03/11/Dagger2使用手册.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omkwoeinb.bkt.clouddn.com/stan.jpg"
+               alt="Ruby" />
+          <p class="site-author-name" itemprop="name">Ruby</p>
+           
+              <p class="site-description motion-element" itemprop="description">Share I can<br>向无私奉献自己知识的先辈们致敬</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaoniaojun" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在项目中引入Dagger2"><span class="nav-number">1.</span> <span class="nav-text">在项目中引入Dagger2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#入门篇"><span class="nav-number">2.</span> <span class="nav-text">入门篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dagger2基本用法-——-使用Moudle类"><span class="nav-number">2.1.</span> <span class="nav-text">Dagger2基本用法 —— 使用Moudle类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首先编写一个依赖对象类Car"><span class="nav-number">2.1.1.</span> <span class="nav-text">1. 首先编写一个依赖对象类Car</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-编写Moudle类"><span class="nav-number">2.1.2.</span> <span class="nav-text">2. 编写Moudle类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-编写Component接口"><span class="nav-number">2.1.3.</span> <span class="nav-text">3. 编写Component接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-在需求对象中声明依赖关系"><span class="nav-number">2.1.4.</span> <span class="nav-text">4. 在需求对象中声明依赖关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最简单的用法"><span class="nav-number">2.2.</span> <span class="nav-text">最简单的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建依赖类"><span class="nav-number">2.2.1.</span> <span class="nav-text">创建依赖类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应对依赖的依赖"><span class="nav-number">2.3.</span> <span class="nav-text">应对依赖的依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在Module类中增加Provide方法："><span class="nav-number">2.3.1.</span> <span class="nav-text">在Module类中增加Provide方法：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dagger2依赖提供规则总结"><span class="nav-number">2.4.</span> <span class="nav-text">Dagger2依赖提供规则总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进阶篇"><span class="nav-number">3.</span> <span class="nav-text">进阶篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Name和-Qulifier"><span class="nav-number">3.1.</span> <span class="nav-text">@Name和@Qulifier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Named"><span class="nav-number">3.1.1.</span> <span class="nav-text">@Named</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Qulifier"><span class="nav-number">3.1.2.</span> <span class="nav-text">@Qulifier</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Singleton和-Scope"><span class="nav-number">3.2.</span> <span class="nav-text">@Singleton和@Scope</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Singleton"><span class="nav-number">3.2.1.</span> <span class="nav-text">@Singleton</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scope"><span class="nav-number">3.2.2.</span> <span class="nav-text">@Scope</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件依赖Dependencies"><span class="nav-number">3.3.</span> <span class="nav-text">组件依赖Dependencies</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Subcomponent注解"><span class="nav-number">3.4.</span> <span class="nav-text">@Subcomponent注解</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ruby</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xiaoniaojun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+  
+    <script src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+</body>
+</html>
