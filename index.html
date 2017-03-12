@@ -294,6 +294,147 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ruby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱鸟人士">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html" itemprop="url">
+                  怒怼Rxjava2(RxAndroid)(1)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T21:50:00+08:00">
+                2017-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/12/怒怼Rxjava2-RxAndroid-1.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="怒怼RxJava-2-RxAndroid-（1）"><a href="#怒怼RxJava-2-RxAndroid-（1）" class="headerlink" title="怒怼RxJava 2(RxAndroid) - （1）"></a>怒怼RxJava 2(RxAndroid) - （1）</h1><p>ReactiveX是一个异步编程库，它的风格是使用函数式观察者模式流来构建异步代码。<br>这里主要讨论的是RxJava 2和RxAndroid。</p>
+<p>##基本工作模式</p>
+<p>Rx的核心思想是观察者模式模型，当然观察者和被观察就是最核心的两个对象。</p>
+<img src="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893124675615.jpg" alt="两种观察者模式" title="两种观察者模式">
+<p>Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者模式。</p>
+<blockquote>
+<p>背压是指在异步场景中，被观察者发送事件速度远快于观察者的处理速度的情况下，一种告诉上游的被观察者降低发送速度的策略<br><a herf="https://juejin.im/post/582b2c818ac24700618ff8f5">《关于 RxJava 最友好的文章—— RxJava 2.0 全新来袭》</a></p>
+</blockquote>
+<p>其中Observable和Flowable是观察者，而Observer和Subscribe是其各自对应的被观察者。</p>
+<p>Rx的基本工作流程是，建立Observable，在里面提供数据、对象、事件等等，之后订阅被观察者，向被观察者传递这些东西，由被观察者进行处理。<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/11/Dagger2使用手册.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -784,7 +925,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -806,7 +947,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

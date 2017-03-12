@@ -1,0 +1,1036 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Rxjava2,异步,函数式编程," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="怒怼RxJava 2(RxAndroid) - （1）ReactiveX是一个异步编程库，它的风格是使用函数式观察者模式流来构建异步代码。这里主要讨论的是RxJava 2和RxAndroid。
+##基本工作模式
+Rx的核心思想是观察者模式模型，当然观察者和被观察就是最核心的两个对象。
+
+Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者模式。
+
+背压是指在异步场景中，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="怒怼Rxjava2(RxAndroid)(1)">
+<meta property="og:url" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html">
+<meta property="og:site_name" content="爱鸟人士">
+<meta property="og:description" content="怒怼RxJava 2(RxAndroid) - （1）ReactiveX是一个异步编程库，它的风格是使用函数式观察者模式流来构建异步代码。这里主要讨论的是RxJava 2和RxAndroid。
+##基本工作模式
+Rx的核心思想是观察者模式模型，当然观察者和被观察就是最核心的两个对象。
+
+Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者模式。
+
+背压是指在异步场景中，">
+<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893124675615.jpg">
+<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893191185779.jpg">
+<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893257177738.jpg">
+<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893255798148.jpg">
+<meta property="og:updated_time" content="2017-03-12T13:57:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="怒怼Rxjava2(RxAndroid)(1)">
+<meta name="twitter:description" content="怒怼RxJava 2(RxAndroid) - （1）ReactiveX是一个异步编程库，它的风格是使用函数式观察者模式流来构建异步代码。这里主要讨论的是RxJava 2和RxAndroid。
+##基本工作模式
+Rx的核心思想是观察者模式模型，当然观察者和被观察就是最核心的两个对象。
+
+Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者模式。
+
+背压是指在异步场景中，">
+<meta name="twitter:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893124675615.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6395317980992898000',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html"/>
+
+
+
+
+
+  <title> 怒怼Rxjava2(RxAndroid)(1) | 爱鸟人士 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">爱鸟人士</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">for my bird</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ruby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱鸟人士">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                怒怼Rxjava2(RxAndroid)(1)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T21:50:00+08:00">
+                2017-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/12/怒怼Rxjava2-RxAndroid-1.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="怒怼RxJava-2-RxAndroid-（1）"><a href="#怒怼RxJava-2-RxAndroid-（1）" class="headerlink" title="怒怼RxJava 2(RxAndroid) - （1）"></a>怒怼RxJava 2(RxAndroid) - （1）</h1><p>ReactiveX是一个异步编程库，它的风格是使用函数式观察者模式流来构建异步代码。<br>这里主要讨论的是RxJava 2和RxAndroid。</p>
+<p>##基本工作模式</p>
+<p>Rx的核心思想是观察者模式模型，当然观察者和被观察就是最核心的两个对象。</p>
+<img src="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893124675615.jpg" alt="两种观察者模式" title="两种观察者模式">
+<p>Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者模式。</p>
+<blockquote>
+<p>背压是指在异步场景中，被观察者发送事件速度远快于观察者的处理速度的情况下，一种告诉上游的被观察者降低发送速度的策略<br><a herf="https://juejin.im/post/582b2c818ac24700618ff8f5">《关于 RxJava 最友好的文章—— RxJava 2.0 全新来袭》</a></p>
+</blockquote>
+<p>其中Observable和Flowable是观察者，而Observer和Subscribe是其各自对应的被观察者。</p>
+<p>Rx的基本工作流程是，建立Observable，在里面提供数据、对象、事件等等，之后订阅被观察者，向被观察者传递这些东西，由被观察者进行处理。<br><a id="more"></a></p>
+<h2 id="创建Observables"><a href="#创建Observables" class="headerlink" title="创建Observables"></a>创建Observables</h2><p>Rx中，对象构建基于Build模式，所有的工作会在build链结束后才会被执行。<br>Rx提供了许多创建Observables的方法：</p>
+<p><a href="http://reactivex.io/documentation/operators/create.html" target="_blank" rel="external">Create</a></p>
+<p>最常规的创建方法，在RxAndroid中，参数需要传递一个<code>ObservableOnSubscribe&lt;T&gt;</code>对象。<code>ObservableOnSubscribe&lt;T&gt;</code>是一个接口，需要实现<code>public void subscribe(final ObservableEmitter&lt;String&gt; e) throws Exception</code>方法，它会提供一个Emitter对象。这个方法用来订阅<code>被观察者</code>，被观察者通过Emitter将数据传递给被观察者。</p>
+<p>Q:怎么回事<code>被观察者</code>去订阅<code>观察者</code>呢？<br>A:因为依靠这个逻辑，可以让被观察者实现一个完整的流式编程。</p>
+<p><a href="http://reactivex.io/documentation/operators/defer.html" target="_blank" rel="external">Defer</a><br>会将创建<code>Observable</code>延迟被订阅时，传递一个<code>Callable&lt;? extends ObservableOnSubscribe&lt;?&gt;&gt;</code>。这个意思应该很明确。</p>
+<p><a href="http://reactivex.io/documentation/operators/empty-never-throw.html" target="_blank" rel="external">Empty/Never/Throw</a><br>字面意义。</p>
+<p><a href="http://reactivex.io/documentation/operators/from.html" target="_blank" rel="external">From</a><br>将其他对象或者数据容器转换成Observable。在RxJava中，from方法是一系列方法集。比如fromArray,fromCallable,fromInterable等。</p>
+<p><a href="http://reactivex.io/documentation/operators/interval.html" target="_blank" rel="external">Interval</a><br>周期性地产生一系列依次递增的&lt;? extends Long&gt;类型的值emit。</p>
+<p><a href="http://reactivex.io/documentation/operators/just.html" target="_blank" rel="external">Just</a><br>发送一个/一系列对象emit给被观察者。最简单的方法。</p>
+<p><a href="http://reactivex.io/documentation/operators/range.html" target="_blank" rel="external">Range</a><br>产生一个范围的整形值emit给观察者。</p>
+<p><a href="http://reactivex.io/documentation/operators/repeat.html" target="_blank" rel="external">Repeat </a><br>周期性重复产生一个或一组对象emit。</p>
+<p><a href="http://reactivex.io/documentation/operators/timer.html" target="_blank" rel="external">Timer</a><br>在一定延迟之后emit单个对象。</p>
+<h2 id="A-Demo-Using-Rx"><a href="#A-Demo-Using-Rx" class="headerlink" title="A Demo Using Rx"></a>A Demo Using Rx</h2><p>我们用一个实际例子来体验Rxjava的基本使用方法。<br>在这个实例中，我们要做一个奶酪搜索app，在输入框中输入关键字，然后在准备好的数据集中搜索包含这些关键字的奶酪品牌。</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>首先，在主界面Layout设计UI，如图：<br><img src="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893191185779.jpg" alt="layout" title="layout"><br>然后，我们先封装一个BaseSearchActivity。<br>在这个BaseSearchActivity中做以下封装：</p>
+<ol>
+<li>持有各个控件的引用；</li>
+<li>初始化RecyclerView，和设置它的内容的方法；</li>
+<li>获取CheeseSearchEngine，搜索工具类的实例；</li>
+<li>显示/隐藏ProgressBar；</li>
+<li>获取数据集</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CheeseActivity</span> <span class="keyword">extends</span> <span class="title">BaseSearchActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Disposable mDisposable;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onStart();</div><div class="line">        Observable&lt;String&gt; textChangeStream = createTextChangeObservable();</div><div class="line">        Observable&lt;String&gt; buttonClickStream = createButtonClickObservable();</div><div class="line">        Observable&lt;String&gt; searchTextObservable = Observable.merge(textChangeStream, buttonClickStream);</div><div class="line">        mDisposable = searchTextObservable</div><div class="line">                .subscribeOn(Schedulers.newThread())</div><div class="line">                .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                .doOnNext(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        showProgressBar();</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line"></div><div class="line">                .observeOn(Schedulers.io())</div><div class="line">                .map(<span class="keyword">new</span> Function&lt;String, List&lt;String&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">apply</span><span class="params">(String query)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="keyword">return</span> mCheeseSearchEngine.search(query);</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line">                .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                .subscribe(<span class="keyword">new</span> Consumer&lt;List&lt;String&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(List&lt;String&gt; result)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        hideProgressBar();</div><div class="line">                        showResult(result);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> Observable&lt;String&gt; <span class="title">createButtonClickObservable</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> ObservableEmitter&lt;String&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                mSearchButton.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                        e.onNext(mQueryEditText.getText().toString());</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">                e.setCancellable(<span class="keyword">new</span> Cancellable() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        mSearchButton.setOnClickListener(<span class="keyword">null</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> Observable&lt;String&gt; <span class="title">createTextChangeObservable</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable&lt;String&gt; textChangeObservable = Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> ObservableEmitter&lt;String&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                <span class="keyword">final</span> TextWatcher watcher = <span class="keyword">new</span> TextWatcher() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">beforeTextChanged</span><span class="params">(CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> count, <span class="keyword">int</span> after)</span> </span>&#123;&#125;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTextChanged</span><span class="params">(CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> before, <span class="keyword">int</span> count)</span> </span>&#123;&#125;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterTextChanged</span><span class="params">(Editable s)</span> </span>&#123;</div><div class="line">                        e.onNext(s.toString());</div><div class="line">                    &#125;</div><div class="line">                &#125;;</div><div class="line">                mQueryEditText.addTextChangedListener(watcher);</div><div class="line">                e.setCancellable(<span class="keyword">new</span> Cancellable() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        mQueryEditText.removeTextChangedListener(watcher);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        <span class="keyword">return</span> textChangeObservable.filter(<span class="keyword">new</span> Predicate&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(String query)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                <span class="keyword">return</span> query.length() &gt;= <span class="number">2</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 防抖动</span></div><div class="line">        &#125;).debounce(<span class="number">1000</span>, TimeUnit.MILLISECONDS);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onStop();</div><div class="line">        <span class="keyword">if</span> (!mDisposable.isDisposed()) &#123;</div><div class="line">            mDisposable.dispose();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，工具类CheeseSearchEngine的实现代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CheeseActivity</span> <span class="keyword">extends</span> <span class="title">BaseSearchActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Disposable mDisposable;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onStart();</div><div class="line">        Observable&lt;String&gt; textChangeStream = createTextChangeObservable();</div><div class="line">        Observable&lt;String&gt; buttonClickStream = createButtonClickObservable();</div><div class="line">        Observable&lt;String&gt; searchTextObservable = Observable.merge(textChangeStream, buttonClickStream);</div><div class="line">        mDisposable = searchTextObservable</div><div class="line">                .subscribeOn(Schedulers.newThread())</div><div class="line">                .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                .doOnNext(<span class="keyword">new</span> Consumer&lt;String&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(String s)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        showProgressBar();</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line"></div><div class="line">                .observeOn(Schedulers.io())</div><div class="line">                .map(<span class="keyword">new</span> Function&lt;String, List&lt;String&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">apply</span><span class="params">(String query)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        <span class="keyword">return</span> mCheeseSearchEngine.search(query);</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line">                .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                .subscribe(<span class="keyword">new</span> Consumer&lt;List&lt;String&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accept</span><span class="params">(List&lt;String&gt; result)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        hideProgressBar();</div><div class="line">                        showResult(result);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> Observable&lt;String&gt; <span class="title">createButtonClickObservable</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> ObservableEmitter&lt;String&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                mSearchButton.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                        e.onNext(mQueryEditText.getText().toString());</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">                e.setCancellable(<span class="keyword">new</span> Cancellable() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        mSearchButton.setOnClickListener(<span class="keyword">null</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> Observable&lt;String&gt; <span class="title">createTextChangeObservable</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable&lt;String&gt; textChangeObservable = Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> ObservableEmitter&lt;String&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                <span class="keyword">final</span> TextWatcher watcher = <span class="keyword">new</span> TextWatcher() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">beforeTextChanged</span><span class="params">(CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> count, <span class="keyword">int</span> after)</span> </span>&#123;&#125;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTextChanged</span><span class="params">(CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> before, <span class="keyword">int</span> count)</span> </span>&#123;&#125;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterTextChanged</span><span class="params">(Editable s)</span> </span>&#123;</div><div class="line">                        e.onNext(s.toString());</div><div class="line">                    &#125;</div><div class="line">                &#125;;</div><div class="line">                mQueryEditText.addTextChangedListener(watcher);</div><div class="line">                e.setCancellable(<span class="keyword">new</span> Cancellable() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                        mQueryEditText.removeTextChangedListener(watcher);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        <span class="keyword">return</span> textChangeObservable.filter(<span class="keyword">new</span> Predicate&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(String query)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                <span class="keyword">return</span> query.length() &gt;= <span class="number">2</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 防抖动</span></div><div class="line">        &#125;).debounce(<span class="number">1000</span>, TimeUnit.MILLISECONDS);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onStop();</div><div class="line">        <span class="keyword">if</span> (!mDisposable.isDisposed()) &#123;</div><div class="line">            mDisposable.dispose();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里顺便再给出Adapter的实现代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CheeseAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">CheeseAdapter</span>.<span class="title">CheeseViewHolder</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> List&lt;String&gt; mCheeses;</div><div class="line"></div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> CheeseViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</div><div class="line">    LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());</div><div class="line">    View view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, <span class="keyword">false</span>);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> CheeseViewHolder(view);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(CheeseViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">    holder.title.setText(mCheeses.get(position));</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> mCheeses == <span class="keyword">null</span> ? <span class="number">0</span> : mCheeses.size();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCheeses</span><span class="params">(List&lt;String&gt; cheeses)</span> </span>&#123;</div><div class="line">    mCheeses = cheeses;</div><div class="line">    notifyDataSetChanged();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CheeseViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">final</span> TextView title;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CheeseViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</div><div class="line">      <span class="keyword">super</span>(itemView);</div><div class="line">      title = (TextView) itemView.findViewById(android.R.id.text1);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>准备工作就做完了，然后，我们再新建一个CheeseActivity类，并将其设置为启动Activity。我们的代码实现将在这个Activity中进行。</p>
+<h3 id="为按钮绑定搜索事件"><a href="#为按钮绑定搜索事件" class="headerlink" title="为按钮绑定搜索事件"></a>为按钮绑定搜索事件</h3><p>我们首先来实现，如何来实现点击按钮进行搜索。</p>
+<p>基于观察者模式的思维，我们可以这样想：<br>在被观察者中注册按钮事件，当点击按钮时，将输入框中的内容emit给被观察者。在被观察者中，我们接受到这个emit内容，并进行搜索任务。</p>
+<p>按照这个逻辑，我们首先来建立被观察者。</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> Observable&lt;String&gt; createOnClickObservable() &#123;</div><div class="line">      <span class="function"><span class="keyword">return</span> Observable.<span class="title">create</span><span class="params">(<span class="keyword">new</span> ObservableOnSubscribe&lt;String&gt;()</span> </span>&#123;</div><div class="line">          <span class="meta">@Override</span></div><div class="line">          <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(<span class="keyword">final</span> ObservableEmitter&lt;String&gt; e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">              mSearchButton.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                  <span class="meta">@Override</span></div><div class="line">                  <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                      e.onNext(String.valueOf(mQueryEditText.getText()));</div><div class="line">                  &#125;</div><div class="line">              &#125;);</div><div class="line">              e.setCancellable(<span class="keyword">new</span> Cancellable() &#123;</div><div class="line">                  <span class="meta">@Override</span></div><div class="line">                  <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                      mSearchButton.setOnClickListener(<span class="keyword">null</span>);</div><div class="line">                  &#125;</div><div class="line">              &#125;);</div><div class="line">          &#125;</div><div class="line">      &#125;);</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>在CheeseActivity中添加一个私有方法来构建Observable<t>。其中，T代表我们要emit的内容的类型。我们使用create方法来创建，这里要实现ObservableOnSubscribe<t>接口中的subscribe方法。该方法是订阅观察者的方法，在其中我们需要手动实现emit。</t></t></p>
+<p>需要注意的是，需要在e.setCancellable中将Listener清除。当我们手动取消订阅时，如果没有将Listener清除，这个Listener就会导致整个引用链无法被GC。</p>
+<p>接下来，我们要设置观察者接受到emit内容后的逻辑了。<br>我们重写onStart()方法，在其中做完整的初始化工作：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="keyword">protected</span> <span class="built_in">void</span> onStart() &#123;</div><div class="line">    <span class="keyword">super</span>.onStart();</div><div class="line">    Observable&lt;<span class="built_in">String</span>&gt; onClickObservable = createOnClickObservable();</div><div class="line">    onClickObservable.subscribe(<span class="keyword">new</span> Consumer&lt;<span class="built_in">String</span>&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> <span class="built_in">void</span> accept(<span class="built_in">String</span> query) throws Exception &#123;</div><div class="line">            List&lt;<span class="built_in">String</span>&gt; result = mCheeseSearchEngine.search(query);</div><div class="line">            showResult(result);</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先我们调用createOnClickObservable()方法创建Observable对象，然后开始链式build整个观察者模式。这里我们使用subscribe订阅观察者，注意，是订阅观察者！subscribe的标准参数是一个Observer类型接口，它的实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Observer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">//在订阅后发送数据之前会先回调整个方法，使用d可以取消订阅</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span></span>;</div><div class="line">    <span class="comment">// 用来接收emit过来的数值</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T value)</span></span>;</div><div class="line">    <span class="comment">// 出错会回调这个方法</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span></span>;</div><div class="line">    <span class="comment">// 取消订阅会回调这个方法</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>不过，我们这里使用的Consumer接口是一个简化的观察者，它的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Consumer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">// 接收emit参数，可以抛出异常</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(T t)</span> <span class="keyword">throws</span> Exception</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>大多数情况下都可以使用这个简化版本来处理emit过来的值。</p>
+<p>不过，我们这里偷了个懒。如果按照正宗的函数式编程思想，emit传递过来的值是String类型，而我们交给界面显示的值是一个List<string>，这两个不是相同的类型。这种情况，我们应该使用Map操作符来执行类型转换。</string></p>
+<p>操作符来执行类型转换。</p>
+<img src="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893257177738.jpg" alt="执行结果" title="执行结果">
+<p>上面的代码实现可以这样，</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    protected <span class="keyword">void</span> onStart() &#123;</div><div class="line">        <span class="keyword">super</span>.onStart();</div><div class="line">        Observable&lt;<span class="built_in">String</span>&gt; onClickObservable = createOnClickObservable();</div><div class="line">        onClickObservable</div><div class="line">                .map(<span class="keyword">new</span> <span class="built_in">Function</span>&lt;<span class="built_in">String</span>, <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    public <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; apply(<span class="built_in">String</span> query) throws Exception &#123;</div><div class="line">                        <span class="keyword">return</span> mCheeseSearchEngine.search(query);</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line">                .subscribe(<span class="keyword">new</span> Consumer&lt;<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    public <span class="keyword">void</span> accept(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; cheese) throws Exception &#123;</div><div class="line">                        showResult(cheese);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>关于函数式编程的思想不是本文的重点，这里就不多说了，有兴趣可以自行查阅相关资料。</p>
+<p>我们的代码是运行成功了，结果也没有问题。<br>可是，因为查询操作通常都是很耗时的，按下按钮后，我们也会卡在主界面无法操作。并且，Android Monitor也给出了类似下面这样的提示，通常，这种提示会在主线程长期无法响应时出现。所以我们要避免这种情况，就要使用多线程。<br><img src="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893255798148.jpg" alt="执行结果" title="执行结果"></p>
+<p>Rxjava一个最牛逼的地方就在于，可以极其方便地将代码执行在不同线程中。我们再来重构一下我们的代码。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    protected <span class="keyword">void</span> onStart() &#123;</div><div class="line">        <span class="keyword">super</span>.onStart();</div><div class="line">        Observable&lt;<span class="built_in">String</span>&gt; onClickObservable = createOnClickObservable();</div><div class="line">        onClickObservable</div><div class="line">                .observeOn(Schedulers.io())</div><div class="line">                .map(<span class="keyword">new</span> <span class="built_in">Function</span>&lt;<span class="built_in">String</span>, <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    public <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; apply(<span class="built_in">String</span> query) throws Exception &#123;</div><div class="line">                        <span class="keyword">return</span> mCheeseSearchEngine.search(query);</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line">                .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                .subscribe(<span class="keyword">new</span> Consumer&lt;<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    public <span class="keyword">void</span> accept(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; cheese) throws Exception &#123;</div><div class="line">                        showResult(cheese);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>可以看到，我们在build链中添加了两个observeOn()方法。这个方法用于指定接下来的操作所在的线程。Rx为我们预先定义了很多Scheduler，代表执行的线程环境，我们可以很方便地使用它们。比如Scheduler.io()就代表在io线程中执行，AndroidScheduler.mainThread()表示主线程。</p>
+<p>顿时异步编程如同儿戏一般简单，这就是Rx的一个亮点之一。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin.png" alt="Ruby WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao.png" alt="Ruby Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Rxjava2/" rel="tag"># Rxjava2</a>
+          
+            <a href="/tags/异步/" rel="tag"># 异步</a>
+          
+            <a href="/tags/函数式编程/" rel="tag"># 函数式编程</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/11/Dagger2使用手册.html" rel="next" title="Dagger2使用手册">
+                <i class="fa fa-chevron-left"></i> Dagger2使用手册
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/12/怒怼Rxjava2-RxAndroid-1.html"
+           data-title="怒怼Rxjava2(RxAndroid)(1)" data-url="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omkwoeinb.bkt.clouddn.com/stan.jpg"
+               alt="Ruby" />
+          <p class="site-author-name" itemprop="name">Ruby</p>
+           
+              <p class="site-description motion-element" itemprop="description">Share I can<br>向无私奉献自己知识的先辈们致敬</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaoniaojun" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#怒怼RxJava-2-RxAndroid-（1）"><span class="nav-number">1.</span> <span class="nav-text">怒怼RxJava 2(RxAndroid) - （1）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建Observables"><span class="nav-number">1.1.</span> <span class="nav-text">创建Observables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#A-Demo-Using-Rx"><span class="nav-number">1.2.</span> <span class="nav-text">A Demo Using Rx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.2.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为按钮绑定搜索事件"><span class="nav-number">1.2.2.</span> <span class="nav-text">为按钮绑定搜索事件</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ruby</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xiaoniaojun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+  
+    <script src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+</body>
+</html>
