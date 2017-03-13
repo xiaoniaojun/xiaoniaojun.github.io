@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android,Retrofit," />
 
 
 
@@ -87,15 +87,22 @@
 
 
 
-<meta name="description" content="Share I can向无私奉献自己知识的先辈们致敬">
-<meta property="og:type" content="website">
-<meta property="og:title" content="爱鸟人士">
-<meta property="og:url" content="http://xiaoniaojun.github.io/index.html">
+<meta name="description" content="引入Retrofit1compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;
+设置Retrofit通过Retrofit类可以让你的API接口转换成callable对象。默认情况下，Retrofit的默认设置已经足够应对大多数情况，不过你也可以进行自定义。
+CONVERTERS默认情况下，Retrofit只能将HTTP体反序列化成OkHttp的Response">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retrofit文档翻译">
+<meta property="og:url" content="http://xiaoniaojun.github.io/2017/03/13/Retrofit文档翻译.html">
 <meta property="og:site_name" content="爱鸟人士">
-<meta property="og:description" content="Share I can向无私奉献自己知识的先辈们致敬">
+<meta property="og:description" content="引入Retrofit1compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;
+设置Retrofit通过Retrofit类可以让你的API接口转换成callable对象。默认情况下，Retrofit的默认设置已经足够应对大多数情况，不过你也可以进行自定义。
+CONVERTERS默认情况下，Retrofit只能将HTTP体反序列化成OkHttp的Response">
+<meta property="og:updated_time" content="2017-03-13T07:48:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="爱鸟人士">
-<meta name="twitter:description" content="Share I can向无私奉献自己知识的先辈们致敬">
+<meta name="twitter:title" content="Retrofit文档翻译">
+<meta name="twitter:description" content="引入Retrofit1compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;
+设置Retrofit通过Retrofit类可以让你的API接口转换成callable对象。默认情况下，Retrofit的默认设置已经足够应对大多数情况，不过你也可以进行自定义。
+CONVERTERS默认情况下，Retrofit只能将HTTP体反序列化成OkHttp的Response">
 
 
 
@@ -123,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaoniaojun.github.io/"/>
+  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/03/13/Retrofit文档翻译.html"/>
 
 
 
 
 
-  <title> 爱鸟人士 </title>
+  <title> Retrofit文档翻译 | 爱鸟人士 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -154,9 +161,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -283,9 +288,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -315,10 +320,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/03/13/Retrofit文档翻译.html" itemprop="url">
-                  Retrofit文档翻译
-                </a>
+                Retrofit文档翻译
               
             
           </h1>
@@ -379,9 +381,7 @@
       
 
       
-        
-          
-            <h1 id="引入Retrofit"><a href="#引入Retrofit" class="headerlink" title="引入Retrofit"></a>引入Retrofit</h1><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.2.0'</span></div></pre></td></tr></table></figure>
+        <h1 id="引入Retrofit"><a href="#引入Retrofit" class="headerlink" title="引入Retrofit"></a>引入Retrofit</h1><figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.2.0'</span></div></pre></td></tr></table></figure>
 <h1 id="设置Retrofit"><a href="#设置Retrofit" class="headerlink" title="设置Retrofit"></a>设置Retrofit</h1><p>通过<code>Retrofit</code>类可以让你的API接口转换成callable对象。默认情况下，Retrofit的默认设置已经足够应对大多数情况，不过你也可以进行自定义。</p>
 <h2 id="CONVERTERS"><a href="#CONVERTERS" class="headerlink" title="CONVERTERS"></a>CONVERTERS</h2><p>默认情况下，<code>Retrofit</code>只能将HTTP体反序列化成OkHttp的ResponseBody类型，并且，默认只能接受RequestBody类型的<code>@Body</code>。</p>
 <p>Converters可以帮我们获得对其他类型的支持。一共有六个converter可以使用，它们可以帮你适配六大常见的库。</p>
@@ -414,634 +414,127 @@
 <h2 id="同步与异步"><a href="#同步与异步" class="headerlink" title="同步与异步"></a>同步与异步</h2><p><code>Call</code>实例可以被同步或者异步执行。每个实例都只能被使用一次，但是调用clone()方法会创建一个新的可以被重用的实例。</p>
 <p>在Android中，回调会在主线程中被执行。在JVM中，回调则在Http请求的线程中执行。</p>
 
-          
-        
       
     </div>
 
     <div>
       
+        
+
+      
     </div>
 
     <div>
       
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ruby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="爱鸟人士">
-    </span>
-
-    
-      <header class="post-header">
-
         
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html" itemprop="url">
-                  怒怼Rxjava2(RxAndroid)(1)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-12T21:50:00+08:00">
-                2017-03-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/12/怒怼Rxjava2-RxAndroid-1.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin.png" alt="Ruby WeChat Pay"/>
+          <p>微信打赏</p>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
       
       
-
-      
-        
-          <h1 id="怒怼RxJava-2-RxAndroid-（1）"><a href="#怒怼RxJava-2-RxAndroid-（1）" class="headerlink" title="怒怼RxJava 2(RxAndroid) - （1）"></a>怒怼RxJava 2(RxAndroid) - （1）</h1><p>ReactiveX是一个异步编程库，它的风格是使用函数式观察者模式流来构建异步代码。<br>这里主要讨论的是RxJava 2和RxAndroid。</p>
-<p>##基本工作模式</p>
-<p>Rx的核心思想是观察者模式模型，当然观察者和被观察就是最核心的两个对象。</p>
-<p><img src="http://omkwoeinb.bkt.clouddn.com/14893124675615.jpg" alt=""></p>
-<p>Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者模式。</p>
-<blockquote>
-<p>背压是指在异步场景中，被观察者发送事件速度远快于观察者的处理速度的情况下，一种告诉上游的被观察者降低发送速度的策略<br><a herf="https://juejin.im/post/582b2c818ac24700618ff8f5">《关于 RxJava 最友好的文章—— RxJava 2.0 全新来袭》</a></p>
-</blockquote>
-<p>其中Observable和Flowable是观察者，而Observer和Subscribe是其各自对应的被观察者。</p>
-<p>Rx的基本工作流程是，建立Observable，在里面提供数据、对象、事件等等，之后订阅被观察者，向被观察者传递这些东西，由被观察者进行处理。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/11/Dagger2使用手册.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ruby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="爱鸟人士">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/11/Dagger2使用手册.html" itemprop="url">
-                  Dagger2使用手册
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-11T15:59:57+08:00">
-                2017-03-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/11/Dagger2使用手册.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/11/Dagger2使用手册.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao.png" alt="Ruby Alipay"/>
+          <p>支付宝打赏</p>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>参考文章：<br><a href="http://www.jianshu.com/p/1d84ba23f4d2">Dagger2入门，以初学者的角度</a></p>
-</blockquote>
-<h1 id="在项目中引入Dagger2"><a href="#在项目中引入Dagger2" class="headerlink" title="在项目中引入Dagger2"></a>在项目中引入Dagger2</h1><p>step 1. 在项目build.gradle文件中添加apt插件：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buildscript</span> &#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">dependencies</span> &#123;</div><div class="line">        <span class="keyword">classpath</span> <span class="string">'com.android.tools.build:gradle:2.3.0'</span></div><div class="line">        </div><div class="line">        <span class="comment">// <span class="doctag">NOTE:</span> Do not place your application dependencies here; they belong</span></div><div class="line">        <span class="comment">// in the individual module build.gradle files</span></div><div class="line">        <span class="comment">// 添加apt插件</span></div><div class="line">        <span class="keyword">classpath</span> <span class="string">'com.neenbedankt.gradle.plugins:android-apt:1.8'</span></div><div class="line">        </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">...</div></pre></td></tr></table></figure>
-<p>step2. 在app目录下的build.gradle文件中添加：</p>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//应用apt插件</span></div><div class="line">apply plugin: <span class="string">'com.neenbedankt.android-apt'</span></div><div class="line"></div><div class="line">...</div><div class="line">dependencies &#123;</div><div class="line">    ...</div><div class="line">    <span class="comment">// 引入dagger2</span></div><div class="line">    compile <span class="string">'com.google.dagger:dagger:2.4'</span></div><div class="line">    apt <span class="string">'com.google.dagger:dagger-compiler:2.4'</span></div><div class="line">    <span class="comment">//java注解</span></div><div class="line">    provided <span class="string">'org.glassfish:javax.annotation:10.0-b28'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/11/Dagger2使用手册.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
       
     </div>
+  </div>
 
-    <div>
-      
-    </div>
 
-    <div>
       
     </div>
 
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/10/Android内存泄漏分析.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ruby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="爱鸟人士">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/10/Android内存泄漏分析.html" itemprop="url">
-                  Android内存泄漏分析
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-10T12:44:28+08:00">
-                2017-03-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/Android/" rel="tag"># Android</a>
           
-
+            <a href="/tags/Retrofit/" rel="tag"># Retrofit</a>
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/10/Android内存泄漏分析.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/10/Android内存泄漏分析.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          <h2 id="具体的垃圾回收机制"><a href="#具体的垃圾回收机制" class="headerlink" title="具体的垃圾回收机制"></a>具体的垃圾回收机制</h2><h3 id="四种引用类型的介绍"><a href="#四种引用类型的介绍" class="headerlink" title="四种引用类型的介绍"></a>四种引用类型的介绍</h3><ul>
-<li>强引用（Strong Reference）：JVM宁可抛出OOM，也不会让GC回收具有强引用的对象；</li>
-<li>软引用（Soft Reference）：只有在内存空间不足时，才被回收的对象；</li>
-<li>软引用（Weak Reference）：在GC时，一旦发现了只具有若引用的对象，不管当前内存空间是否充足，都会回收它的内存；</li>
-<li>虚引用（Phantom Reference）：任何时候都可以被GC回收。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否存在该对象的虚引用，来了解这个对象是否需要回收。</li>
-</ul>
-<p><em>我们常说的内存泄漏是指new出来的Object无法被GC回收，即为强引用。</em><br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/10/Android内存泄漏分析.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html" rel="next" title="怒怼Rxjava2(RxAndroid)(1)">
+                <i class="fa fa-chevron-left"></i> 怒怼Rxjava2(RxAndroid)(1)
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
+          <span class="post-nav-divider"></span>
 
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ruby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="爱鸟人士">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/09/走近科学：揭秘Context.html" itemprop="url">
-                  走近科学：揭秘Context
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-09T13:41:28+08:00">
-                2017-03-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/09/走近科学：揭秘Context.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/走近科学：揭秘Context.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="Activity可以new吗？"><a href="#Activity可以new吗？" class="headerlink" title="Activity可以new吗？"></a>Activity可以new吗？</h2><p><code>Activity mActivity = new Activity();</code><br>可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？</p>
-<p>Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行需要有一个完整的Android工程环境。只有在这个环境下，Activity、Service等系统组件才能正常工作。不过这些组件并不能采取普通的Java对象创建的方式，new一下就能创建实例了。它们的建立需要有各自的上下文环境，而这就是我们要讨论的Context。</p>
-<p>Context是维持Andoird程序各组件能正常工作的一个核心功能类。<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/09/走近科学：揭秘Context.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
 
           
           </div>
@@ -1049,6 +542,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/13/Retrofit文档翻译.html"
+           data-title="Retrofit文档翻译" data-url="http://xiaoniaojun.github.io/2017/03/13/Retrofit文档翻译.html">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -1068,8 +569,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://omkwoeinb.bkt.clouddn.com/stan.jpg"
@@ -1142,6 +652,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#引入Retrofit"><span class="nav-number">1.</span> <span class="nav-text">引入Retrofit</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置Retrofit"><span class="nav-number">2.</span> <span class="nav-text">设置Retrofit</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CONVERTERS"><span class="nav-number">2.1.</span> <span class="nav-text">CONVERTERS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义Coverters"><span class="nav-number">2.2.</span> <span class="nav-text">自定义Coverters</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Retrofit-Api"><span class="nav-number">3.</span> <span class="nav-text">Retrofit Api</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#REQUEST方法"><span class="nav-number">3.1.</span> <span class="nav-text">REQUEST方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步与异步"><span class="nav-number">3.2.</span> <span class="nav-text">同步与异步</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1247,6 +773,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
