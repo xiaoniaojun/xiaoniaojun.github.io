@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Android,Context," />
+  <meta name="keywords" content="Android,Retrofit2,Retrofit,Gson," />
 
 
 
@@ -87,22 +87,22 @@
 
 
 
-<meta name="description" content="Activity可以new吗？Activity mActivity = new Activity();可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？
-Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行">
+<meta name="description" content="Retrofit基本使用基本用法我们来实现一个最基本的请求Json结果的文件的Demo。
+引入依赖首先新建一个工程，在app的build.gradle中加入以下依赖：
+123compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.google.code.gson:gson:2.7&apos;compile &apos;com.squareup.retro">
 <meta property="og:type" content="article">
-<meta property="og:title" content="走近科学：揭秘Context">
-<meta property="og:url" content="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context.html">
+<meta property="og:title" content="Retrofit2+Gson的基本用法">
+<meta property="og:url" content="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html">
 <meta property="og:site_name" content="爱鸟人士">
-<meta property="og:description" content="Activity可以new吗？Activity mActivity = new Activity();可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？
-Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行">
-<meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/md14889413298331.jpg">
-<meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/md14889426118849.jpg">
-<meta property="og:updated_time" content="2017-03-10T09:19:15.000Z">
+<meta property="og:description" content="Retrofit基本使用基本用法我们来实现一个最基本的请求Json结果的文件的Demo。
+引入依赖首先新建一个工程，在app的build.gradle中加入以下依赖：
+123compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.google.code.gson:gson:2.7&apos;compile &apos;com.squareup.retro">
+<meta property="og:updated_time" content="2017-03-13T13:43:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="走近科学：揭秘Context">
-<meta name="twitter:description" content="Activity可以new吗？Activity mActivity = new Activity();可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？
-Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行">
-<meta name="twitter:image" content="http://omkwoeinb.bkt.clouddn.com/md14889413298331.jpg">
+<meta name="twitter:title" content="Retrofit2+Gson的基本用法">
+<meta name="twitter:description" content="Retrofit基本使用基本用法我们来实现一个最基本的请求Json结果的文件的Demo。
+引入依赖首先新建一个工程，在app的build.gradle中加入以下依赖：
+123compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.google.code.gson:gson:2.7&apos;compile &apos;com.squareup.retro">
 
 
 
@@ -130,13 +130,13 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
 
 
 
-  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context.html"/>
+  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html"/>
 
 
 
 
 
-  <title> 走近科学：揭秘Context | 爱鸟人士 </title>
+  <title> Retrofit2+Gson的基本用法 | 爱鸟人士 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -299,7 +299,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context.html">
+    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ruby">
@@ -320,7 +320,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
             
             
               
-                走近科学：揭秘Context
+                Retrofit2+Gson的基本用法
               
             
           </h1>
@@ -335,8 +335,8 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-09T13:41:28+08:00">
-                2017-03-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-13T21:43:18+08:00">
+                2017-03-13
               </time>
             
 
@@ -346,28 +346,6 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -376,8 +354,8 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/09/走近科学：揭秘Context.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/走近科学：揭秘Context.html" itemprop="commentCount"></span>
+                <a href="/2017/03/13/Retrofit2-Gson的基本用法.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/13/Retrofit2-Gson的基本用法.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -403,47 +381,44 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
       
 
       
-        <h2 id="Activity可以new吗？"><a href="#Activity可以new吗？" class="headerlink" title="Activity可以new吗？"></a>Activity可以new吗？</h2><p><code>Activity mActivity = new Activity();</code><br>可能很多人没有想过这个问题：Activity可以new吗？本质上，Activity也是一个类，照理来说它应该符合Java的语法，可是上面那种用法到底有什么问题呢？</p>
-<p>Android程序不像Java程序，随便写一个类，添加一个main()方法就能运行。Android是基于组件的应用设计模式，组件的运行需要有一个完整的Android工程环境。只有在这个环境下，Activity、Service等系统组件才能正常工作。不过这些组件并不能采取普通的Java对象创建的方式，new一下就能创建实例了。它们的建立需要有各自的上下文环境，而这就是我们要讨论的Context。</p>
-<p>Context是维持Andoird程序各组件能正常工作的一个核心功能类。<br><a id="more"></a></p>
-<h2 id="Context到底是什么？"><a href="#Context到底是什么？" class="headerlink" title="Context到底是什么？"></a>Context到底是什么？</h2><p><strong>Context的字面意思是“语境”、“上下文”，可以理解为当前对象在程序中的一个环境，一个与系统交互的过程。</strong>比如微信聊天，此时的context是指聊天界面以及相关的数据请求与传输。<strong>Context在加载资源、启动Activity、获取系统服务、创建View等操作都要参与。</strong></p>
-<p><strong>那Android中的Context到底是什么呢？一个Activity就是一个Context，一个Service也是一个Context。Android设计者把“应用场景”抽象为了Context类，认为用户和操作系统的每一种交互都是一个场景。</strong>比如打电话、发短信、这些都是一个有界面的场景。还有一些没有界面的场景，比如后台运行的服务（Service）。一个应用程序可以认为是一个工作环境，用户在这个工作环境中会切换到不同的场景。它就像一个公司的前台秘书，可能需要接待客人，可能要打印文件，还可能要接听客户电话。而这些任务就可以称之为不同的场景，这个前台秘书可以称之为一个应用程序。</p>
-<p>其实，Context也可以看做是一个应用与系统交互的中间层。在Android的源码中，对Context的注释文档说明：</p>
-<blockquote>
-<p>它是一个抽象类，它的执行被Android系统所提供。它允许获取以应用为特征的资源和类型，是一个统领一些资源（应用程序环境变量等）的上下文。就是说，它描述一个应用程序环境的信息（即上下文）；是一个抽象类，Android提供了该抽象类的具体实现类；通过它我们可以获取应用程序的资源和类（包括应用级别操作，如启动Activity，发广播，接受Intent等）。</p>
-</blockquote>
-<h2 id="Context的实现类"><a href="#Context的实现类" class="headerlink" title="Context的实现类"></a>Context的实现类</h2><p>既然源码中说明了它是一个抽象类，那么肯定就有它的实现类咯。Context的实现类可以形成如下的关系图：<br><img src="http://omkwoeinb.bkt.clouddn.com/md14889413298331.jpg" alt="Context类图"><br>Context类本身是一个纯抽象类，它有两个具体的实现子类：ContextImpl和ContextWrapper。熟悉设计模式的应该可以反应过来，其实就是个装饰者模式的类图。</p>
-<p>其中ContextWrapper只是一个包装类。它的构造函数中必须包含一个真正的Context引用，同时ContextWrapper提供了attachBaseContext()用于给ContextWrapper对象中执行真正的Context对象。ContextWrapper中的方法都会被转向其所包含的真正的Context对象。</p>
-<p>ContextThemeWrapper类的内部包含了与主题（Theme）相关的接口。这里说的主题就是指在AndroidManifest.xml中，通过android:theme为Application元素或者Activity元素指定的主题。当然，因为只有Activity有可视化界面，Service没有，所以只有Activity才需要主题，因此Service是直接继承与ContextWrapper的，Application同理。</p>
-<p>而ContextImpl类才真正实现了Context中的所有方法。应用程序中调用的各种Context类的方法，其实现均来自于该类。</p>
-<p><strong>总结一下，<br>ContextImpl是Context的具体实现类，ContextWrapper是Context的包装类。Activity，Application，Service虽然都继承自ContextWrapper，但它们在初始化时都会创建ContextImpl对象，由ContextImpl实现Context中的方法。</strong></p>
-<h2 id="一个应用有几个Context？"><a href="#一个应用有几个Context？" class="headerlink" title="一个应用有几个Context？"></a>一个应用有几个Context？</h2><p>其实我们从关系图中就可以知道，在一个应用程序中，Context的具体实现类就是Activity、Service和Application。</p>
-<p><strong>于是，Context的数量 = Activity数量 + Service数量 + 1。</strong></p>
-<p>有人会问，Boradcast Receiver，Content Provider呢？它们并不是Context的子类，其所持有的Context都是其他地方传递过去的，所以并不增加Context总数。</p>
-<h2 id="Context到底能干什么？"><a href="#Context到底能干什么？" class="headerlink" title="Context到底能干什么？"></a>Context到底能干什么？</h2><p>Context能实现的功能就太多了，弹出Toast、启动和操作四大组件、获取资源等等都需要Context。</p>
-<h2 id="Context作用域"><a href="#Context作用域" class="headerlink" title="Context作用域"></a>Context作用域</h2><p>虽然Context地位崇高、能力强大，但是并不是随便拿一个Context就能为所欲为的。Context的具体是由ContextImpl实现的，因此绝大多数的场景中，Activity、Service、Application这三种Context都是可以通用的。不过有几种场景比较特殊，比如启动Activity和弹出Dialog。因为一个Activity的启动必须要建立在另一个Activity的基础之上，也就是以此形成返回栈。而Dialog则必须在一个Activity上面弹出（除了System Alert类型的Dialog），因此，Activity类型的Context的用途是最广的。</p>
-<p><img src="http://omkwoeinb.bkt.clouddn.com/md14889426118849.jpg" alt="Context分类"></p>
-<p>这里说一下上图中Application和Service所不推荐的两种使用情况。</p>
-<p>1.如果我们用ApplicationContext去启动一个LaunchMode为standard的Activity的时候会报错android.util.AndroidRuntimeException: Calling startActivity from outside of an Activity context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?这是因为非Activity类型的Context并没有所谓的任务栈，所以待启动的Activity就找不到栈了。解决这个问题的方法就是为待启动的Activity指定FLAG_ACTIVITY_NEW_TASK标记位，这样启动的时候就为它创建一个新的任务栈，而此时Activity是以singleTask模式启动的。所有这种用Application启动Activity的方式不推荐使用，Service同Application。</p>
-<p>2.在Application和Service中去layout inflate也是合法的，但是会使用系统默认的主题样式，如果你自定义了某些样式可能不会被使用。所以这种方式也不推荐使用。</p>
-<p><strong>一句话总结：凡是跟UI相关的，都应该使用Activity做为Context来处理；其他的一些操作，Service,Activity,Application等实例都可以，当然了，注意Context引用的持有，防止内存泄漏。</strong></p>
-<h2 id="如何获取Context"><a href="#如何获取Context" class="headerlink" title="如何获取Context"></a>如何获取Context</h2><p>主要有以下4种方法：</p>
+        <h1 id="Retrofit基本使用"><a href="#Retrofit基本使用" class="headerlink" title="Retrofit基本使用"></a>Retrofit基本使用</h1><h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>我们来实现一个最基本的请求Json结果的文件的Demo。</p>
+<h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><p>首先新建一个工程，在app的build.gradle中加入以下依赖：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.2.0'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.google.code.gson:gson:2.7'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:converter-gson:2.0.2'</span></div></pre></td></tr></table></figure>
+<p>第一行自然是引入retrofit2啦，<br>由于我们需要解析Json文本，Retrofit为我们提供了一个很方便的工具Converter。我们在获取网络资源后，通常需要对其内容进行解析，这个步骤可以利用线程的解析库来实现，并且Retrofit为几个常见的解析库提供了相应了Converter类。Gson是一个常见的Json解析库，Retrofit为它提供了Converter。<br>第二行和第三行就是分别引入Gson和GsonConverterFactory的，稍后用到这个Converter的时候会再提一下的。</p>
+<p>然后，我们随便上传一个Json文件在GitHub上，这里大家就自己弄啦。</p>
+<p>我传了一个Json文件上去，地址为：<br><code>https://raw.githubusercontent.com/xiaoniaojun/xiaoniaojun.github.io/master/test.json</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"><span class="attr">age</span>: <span class="number">22</span>,</div><div class="line"><span class="attr">name</span>: <span class="string">"Bird"</span>,</div><div class="line"><span class="attr">phoneNumber</span>: <span class="string">"13550626331"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>记下这个地址，后面的构建会用到。<br>注意：这个地址可能随时失效，请大家自己动手上传。</p>
+<h2 id="构建请求接口"><a href="#构建请求接口" class="headerlink" title="构建请求接口"></a>构建请求接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// https://raw.githubusercontent.com/xiaoniaojun/xiaoniaojun.github.io/master/test.json</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GitHub</span> </span>&#123;</div><div class="line">    <span class="meta">@GET</span>(<span class="string">"&#123;userId&#125;/&#123;userId&#125;.github.io/master/&#123;fileName&#125;"</span>)</div><div class="line">    <span class="function">Call&lt;User&gt; <span class="title">results</span><span class="params">(@Path(<span class="string">"userId"</span>)</span> String userId, @<span class="title">Path</span><span class="params">(<span class="string">"fileName"</span>)</span> String fileName)</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>大家可以把目标链接用注释写在上面，方便写代码的时候对照。</p>
+<p><code>@Get</code>注解中编写请求链接的基本结构，其中用{}括起来的，表示替换块(replacation block)，可以在注解的方法中，通过@Path标注的参数，进行替换。<br>这里有两点需要注意，替换块中的字符串需要和<code>@Path</code>参数的字符串相同才能被识别。其次，Call<t>，这个T表示response返回的类型。</t></p>
+<p>这个接口实现的请求方法，会在之后被用来构造Call<t>对象，而这个Call<t>对象就是封装好的可调用对象，它是后面实际执行请求所需要的关键对象。我们可以使用call进行异步或同步调用。最后，我们会将这一系列步骤串起来总结。</t></t></p>
+<h2 id="为json定义Bean"><a href="#为json定义Bean" class="headerlink" title="为json定义Bean"></a>为json定义Bean</h2><p>Call中的泛型类型为User，它是我们自定义的Bean。所谓Bean，我的理解就是一个包含Json对象所有字段的数据模型类，是一个纯java类。这里，我们简单地定义一下这个User Bean。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line">    <span class="keyword">private</span> String phoneNumber;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name, <span class="keyword">int</span> age, String phoneNumber)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">        <span class="keyword">this</span>.phoneNumber = phoneNumber;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码很简单，就是包含了Json中出现的所有字段。</p>
+<h2 id="构建GitHub实例"><a href="#构建GitHub实例" class="headerlink" title="构建GitHub实例"></a>构建GitHub实例</h2><p>我们的目的是，最终实现网络请求，刚刚说到，请求的必须品是Call<t>实例，而Call<t>实例是我们定义的接口方法results()返回的。所以，我们需要来构建接口类型GitHub的实例。</t></t></p>
+<p>我们需要利用retrofit提供的建造者方法一步一步地来构建出刚刚定义的接口类型的实例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">            .baseUrl(<span class="string">"https://raw.githubusercontent.com/"</span>)</div><div class="line">            .addConverterFactory(GsonConverterFactory.create())</div><div class="line">            .build();</div><div class="line">            </div><div class="line">GitHub gitHub = retrofit.create(GitHub.class);</div></pre></td></tr></table></figure>
+<p>首先，我们通过建造者模式的方法Retrofit.Builder()，一步一步构造retrofit对象。</p>
+<ul>
+<li>baseUrl()方法用于指定基地址；</li>
+<li>addConverterFactroy()方法用于设置Converter。刚刚我们已经谈过它了，它的作用就是，在response返回对象的时候，将response的body体利用Gson来解析；</li>
+<li>最后以build()方法结束建造。</li>
+</ul>
+<p>这样retrofit就配置完成了，接下来调用retrofit的create方法，传入GitHub.class对象，来生成GitHub的实例。</p>
+<h2 id="最后一步"><a href="#最后一步" class="headerlink" title="最后一步"></a>最后一步</h2><p>得到了GitHub实例，我们就可以调用在GitHub接口中定义的results方法来获取Call<t>了。在results方法中，我们定义了构造请求链接的参数userId，以及FileName，这里我们传入”xiaoniaojun”和”test.json”，就可以得到构造好的Call<t>对象。</t></t></p>
+<p>此时，Call<t>的大刀早已饥渴难耐，就等着执行网络请求了！</t></p>
+<p>Retrofit为我们提供了两个方法，execute和enqueue，分别是同步/异步调用。同步调用就是直接调用，阻塞到返回，没什么好说的；异步调用需要传入一个Callback<t>对象，用来获取返回值。</t></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Call&lt;User&gt; xiaoniaojun = gitHub.results(<span class="string">"xiaoniaojun"</span>, <span class="string">"test.json"</span>);</div><div class="line">        xiaoniaojun.enqueue(<span class="keyword">new</span> Callback&lt;User&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call&lt;User&gt; call, Response&lt;User&gt; response)</span> </span>&#123;</div><div class="line">                User responseUser = response.body();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call&lt;User&gt; call, Throwable t)</span> </span>&#123;</div><div class="line">                t.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+<p>Callback<t>接口实现了两个方法，<br>onFailure表示请求失败，返回call对象和Throwable；<br>onResponse表示请求成功，返回call对象和response，这个response就是返回结果啦。</t></p>
+<p>这里要说一下这个call对象有什么用。在Retrofit中，Call<t>只能被执行一次，所以想要再次执行，就必须重新建立一个Call，或者，使用从回调中获取的这个call，它是可以被调用的。</t></p>
+<h2 id="基本使用步骤总结"><a href="#基本使用步骤总结" class="headerlink" title="基本使用步骤总结"></a>基本使用步骤总结</h2><p>这里我们来简单总结一下，使用Retrofit来进行一个完整网络请求的步骤：</p>
 <ol>
-<li>View.getContext。返回当前View的Context对象，通常是正在显示的Activity对象。</li>
-<li>Activity.getApplicationContext，即获取ApplicationContext。通常我们在使用Context对象，特别是要持有Context对象时，都要优先考虑这个全局的进程Context，可以避免很多内存泄漏问题。</li>
-<li>ContextWrapper.getBaseContext()。返回ContextWrapper所包装的那个原始Context，在实际开发中用得很少，不建议使用。</li>
-<li>Activity.this，返回当前的Activity实例。UI控件需要使用Activity作为Context对象，但其实默认的Toast实际上也可以用ApplicationContext。<h2 id="getApplication-和getApplicationContext"><a href="#getApplication-和getApplicationContext" class="headerlink" title="getApplication()和getApplicationContext()"></a>getApplication()和getApplicationContext()</h2>其实这两个函数获取的都是同一个对象，那么既然结果都是相同的，Android为啥要提供两个功能重复的方法呢？<br><strong>实际上，这两个方法在作用域上有比较大的区别。</strong>getApplication()方法只有在Activity和Service才能调用，而另一个方法范围就要广一些，比如在BroadcastReceiver中就可以使用getApplicationContext()来获取。</li>
-</ol>
-<h2 id="Context的错误使用引起的内存泄漏"><a href="#Context的错误使用引起的内存泄漏" class="headerlink" title="Context的错误使用引起的内存泄漏"></a>Context的错误使用引起的内存泄漏</h2><p>这里举两个常见的例子：</p>
-<h3 id="1-错误的单例模式"><a href="#1-错误的单例模式" class="headerlink" title="1. 错误的单例模式"></a>1. 错误的单例模式</h3><figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class Singleton &#123;    </div><div class="line">   <span class="keyword"> private</span><span class="keyword"> static</span> Singleton instance;    </div><div class="line">   <span class="keyword"> private</span> Context mContext;  </div><div class="line">      </div><div class="line">   <span class="keyword"> private</span> Singleton(Context context) &#123;        </div><div class="line">        this.mContext = context;</div><div class="line">    &#125;    </div><div class="line">        </div><div class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> Singleton getInstance(Context context) &#123;       </div><div class="line">       <span class="built_in"> if </span>(instance == null) &#123;</div><div class="line">            <span class="built_in"> instance </span>=<span class="built_in"> new </span>Singleton(context);</div><div class="line">        &#125;       </div><div class="line">       <span class="built_in"> return </span>instance;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>instance作为静态对象，位于GC ROOT节点上，生命周期要长于普通的对象。常驻内存的Singleton保存了传入的Activity对象并一直持有，即使Activity被销毁掉，但因为它的引用还存在于一个Singleton中，就不会被GC掉，这就导致了内存泄漏。<br><strong>解决方法是使用弱引用WeakReference；或者传入ApplicationContext。</strong></p>
-<h3 id="2-View持有Activity引用"><a href="#2-View持有Activity引用" class="headerlink" title="2. View持有Activity引用"></a>2. View持有Activity引用</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> static <span class="type">Drawable</span> mDrawable; </div><div class="line">   </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> void onCreate(<span class="type">Bundle</span> saveInstanceState) &#123;        </div><div class="line">        <span class="keyword">super</span>.onCreate(saveInstanceState);</div><div class="line">        setContentView(<span class="type">R</span>.layout.activity_main);        </div><div class="line">        <span class="type">ImageView</span> iv = <span class="keyword">new</span> <span class="type">ImageView</span>(<span class="keyword">this</span>);</div><div class="line">        mDrawable = getResources().getDrawable(<span class="type">R</span>.drawable.ic_launcher);</div><div class="line">        iv.setImageDrawable(mDrawable);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>代码中一个静态Drawable对象被设置在ImageView中。而ImageView传入的this是MainActivity的mContext，因为被static修饰的mDrawable是常驻内存的，MainActivity是它的间接引用，所以当MainActivity被销毁时，也不会被GC掉，造成内存泄漏。</p>
-<h2 id="使用Context的注意事项"><a href="#使用Context的注意事项" class="headerlink" title="使用Context的注意事项"></a>使用Context的注意事项</h2><p>一般Context造成的内存泄漏几乎都是当Context被销毁时，由于还存在引用而导致销毁失败。不过Application是伴随进程而存在的唯一的Context，所以：</p>
-<ol>
-<li>在Application适用的场景中优先考虑使用它。</li>
-<li>不要让生命周期长于Activity的对象持有Activity的引用。</li>
-<li>尽量不要在Activity中使用非静态内部类和匿名类，因为它们会持有外部实例的引用。而静态内部类会将外部引用作用为弱引用持有。</li>
+<li>建立构造请求对象的接口；</li>
+<li>使用Retrofit.Builder()来build Retrofit实例。</li>
+<li>利用这个Retrofit实例的create方法，传入接口.class，创建出接口的实例。</li>
+<li>利用这个实例中，我们在接口内实现的那个方法，传入构造请求链接的相关变量，创建出Call<t>对象。</t></li>
+<li>利用这个Call对象进行同步或异步调用，异步调用最后都需要构造一个匿名内部类Callback<t>，实现onResponse回调和onFailure对返回结果进行处理。</t></li>
 </ol>
 
       
@@ -491,7 +466,11 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
           
             <a href="/tags/Android/" rel="tag"># Android</a>
           
-            <a href="/tags/Context/" rel="tag"># Context</a>
+            <a href="/tags/Retrofit2/" rel="tag"># Retrofit2</a>
+          
+            <a href="/tags/Retrofit/" rel="tag"># Retrofit</a>
+          
+            <a href="/tags/Gson/" rel="tag"># Gson</a>
           
         </div>
       
@@ -504,15 +483,15 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/03/13/Retrofit文档翻译.html" rel="next" title="Retrofit文档翻译">
+                <i class="fa fa-chevron-left"></i> Retrofit文档翻译
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/10/Android内存泄漏分析.html" rel="prev" title="Android内存泄漏分析">
-                Android内存泄漏分析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -576,8 +555,8 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/09/走近科学：揭秘Context.html"
-           data-title="走近科学：揭秘Context" data-url="http://xiaoniaojun.github.io/2017/03/09/走近科学：揭秘Context.html">
+      <div class="ds-thread" data-thread-key="2017/03/13/Retrofit2-Gson的基本用法.html"
+           data-title="Retrofit2+Gson的基本用法" data-url="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html">
       </div>
     
   </div>
@@ -694,7 +673,7 @@ Android程序不像Java程序，随便写一个类，添加一个main()方法就
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Activity可以new吗？"><span class="nav-number">1.</span> <span class="nav-text">Activity可以new吗？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context到底是什么？"><span class="nav-number">2.</span> <span class="nav-text">Context到底是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context的实现类"><span class="nav-number">3.</span> <span class="nav-text">Context的实现类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个应用有几个Context？"><span class="nav-number">4.</span> <span class="nav-text">一个应用有几个Context？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context到底能干什么？"><span class="nav-number">5.</span> <span class="nav-text">Context到底能干什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context作用域"><span class="nav-number">6.</span> <span class="nav-text">Context作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何获取Context"><span class="nav-number">7.</span> <span class="nav-text">如何获取Context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#getApplication-和getApplicationContext"><span class="nav-number">8.</span> <span class="nav-text">getApplication()和getApplicationContext()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Context的错误使用引起的内存泄漏"><span class="nav-number">9.</span> <span class="nav-text">Context的错误使用引起的内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-错误的单例模式"><span class="nav-number">9.1.</span> <span class="nav-text">1. 错误的单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-View持有Activity引用"><span class="nav-number">9.2.</span> <span class="nav-text">2. View持有Activity引用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Context的注意事项"><span class="nav-number">10.</span> <span class="nav-text">使用Context的注意事项</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Retrofit基本使用"><span class="nav-number">1.</span> <span class="nav-text">Retrofit基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本用法"><span class="nav-number">1.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引入依赖"><span class="nav-number">1.2.</span> <span class="nav-text">引入依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建请求接口"><span class="nav-number">1.3.</span> <span class="nav-text">构建请求接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为json定义Bean"><span class="nav-number">1.4.</span> <span class="nav-text">为json定义Bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建GitHub实例"><span class="nav-number">1.5.</span> <span class="nav-text">构建GitHub实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后一步"><span class="nav-number">1.6.</span> <span class="nav-text">最后一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本使用步骤总结"><span class="nav-number">1.7.</span> <span class="nav-text">基本使用步骤总结</span></a></li></ol></li></ol></div>
             
 
           </div>
