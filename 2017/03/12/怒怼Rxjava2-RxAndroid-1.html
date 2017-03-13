@@ -105,11 +105,8 @@ Rx的核心思想是观察者模式模型，当然观察者和被观察就是最
 Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者模式。
 
 背压是指在异步场景中，">
-<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893124675615.jpg">
-<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893191185779.jpg">
-<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893257177738.jpg">
-<meta property="og:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893255798148.jpg">
-<meta property="og:updated_time" content="2017-03-12T13:57:28.000Z">
+<meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/14893124675615.jpg">
+<meta property="og:updated_time" content="2017-03-13T02:07:47.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="怒怼Rxjava2(RxAndroid)(1)">
 <meta name="twitter:description" content="怒怼RxJava 2(RxAndroid) - （1）ReactiveX是一个异步编程库，它的风格是使用函数式观察者模式流来构建异步代码。这里主要讨论的是RxJava 2和RxAndroid。
@@ -119,7 +116,7 @@ Rx的核心思想是观察者模式模型，当然观察者和被观察就是最
 Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者模式。
 
 背压是指在异步场景中，">
-<meta name="twitter:image" content="http://xiaoniaojun.github.io/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893124675615.jpg">
+<meta name="twitter:image" content="http://omkwoeinb.bkt.clouddn.com/14893124675615.jpg">
 
 
 
@@ -401,7 +398,7 @@ Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者�
         <h1 id="怒怼RxJava-2-RxAndroid-（1）"><a href="#怒怼RxJava-2-RxAndroid-（1）" class="headerlink" title="怒怼RxJava 2(RxAndroid) - （1）"></a>怒怼RxJava 2(RxAndroid) - （1）</h1><p>ReactiveX是一个异步编程库，它的风格是使用函数式观察者模式流来构建异步代码。<br>这里主要讨论的是RxJava 2和RxAndroid。</p>
 <p>##基本工作模式</p>
 <p>Rx的核心思想是观察者模式模型，当然观察者和被观察就是最核心的两个对象。</p>
-<img src="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893124675615.jpg" alt="两种观察者模式" title="两种观察者模式">
+<p><img src="http://omkwoeinb.bkt.clouddn.com/14893124675615.jpg" alt=""></p>
 <p>Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者模式。</p>
 <blockquote>
 <p>背压是指在异步场景中，被观察者发送事件速度远快于观察者的处理速度的情况下，一种告诉上游的被观察者降低发送速度的策略<br><a herf="https://juejin.im/post/582b2c818ac24700618ff8f5">《关于 RxJava 最友好的文章—— RxJava 2.0 全新来袭》</a></p>
@@ -421,7 +418,7 @@ Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者�
 <p><a href="http://reactivex.io/documentation/operators/repeat.html" target="_blank" rel="external">Repeat </a><br>周期性重复产生一个或一组对象emit。</p>
 <p><a href="http://reactivex.io/documentation/operators/timer.html" target="_blank" rel="external">Timer</a><br>在一定延迟之后emit单个对象。</p>
 <h2 id="A-Demo-Using-Rx"><a href="#A-Demo-Using-Rx" class="headerlink" title="A Demo Using Rx"></a>A Demo Using Rx</h2><p>我们用一个实际例子来体验Rxjava的基本使用方法。<br>在这个实例中，我们要做一个奶酪搜索app，在输入框中输入关键字，然后在准备好的数据集中搜索包含这些关键字的奶酪品牌。</p>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>首先，在主界面Layout设计UI，如图：<br><img src="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893191185779.jpg" alt="layout" title="layout"><br>然后，我们先封装一个BaseSearchActivity。<br>在这个BaseSearchActivity中做以下封装：</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>首先，在主界面Layout设计UI，如图：<br><br>然后，我们先封装一个BaseSearchActivity。<br>在这个BaseSearchActivity中做以下封装：</p>
 <ol>
 <li>持有各个控件的引用；</li>
 <li>初始化RecyclerView，和设置它的内容的方法；</li>
@@ -450,11 +447,11 @@ Rxjava2中，为了解决背压(BackPressure)问题，引入了两种观察者�
 <p>大多数情况下都可以使用这个简化版本来处理emit过来的值。</p>
 <p>不过，我们这里偷了个懒。如果按照正宗的函数式编程思想，emit传递过来的值是String类型，而我们交给界面显示的值是一个List<string>，这两个不是相同的类型。这种情况，我们应该使用Map操作符来执行类型转换。</string></p>
 <p>操作符来执行类型转换。</p>
-<img src="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893257177738.jpg" alt="执行结果" title="执行结果">
+
 <p>上面的代码实现可以这样，</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    protected <span class="keyword">void</span> onStart() &#123;</div><div class="line">        <span class="keyword">super</span>.onStart();</div><div class="line">        Observable&lt;<span class="built_in">String</span>&gt; onClickObservable = createOnClickObservable();</div><div class="line">        onClickObservable</div><div class="line">                .map(<span class="keyword">new</span> <span class="built_in">Function</span>&lt;<span class="built_in">String</span>, <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    public <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; apply(<span class="built_in">String</span> query) throws Exception &#123;</div><div class="line">                        <span class="keyword">return</span> mCheeseSearchEngine.search(query);</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line">                .subscribe(<span class="keyword">new</span> Consumer&lt;<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    public <span class="keyword">void</span> accept(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; cheese) throws Exception &#123;</div><div class="line">                        showResult(cheese);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>关于函数式编程的思想不是本文的重点，这里就不多说了，有兴趣可以自行查阅相关资料。</p>
-<p>我们的代码是运行成功了，结果也没有问题。<br>可是，因为查询操作通常都是很耗时的，按下按钮后，我们也会卡在主界面无法操作。并且，Android Monitor也给出了类似下面这样的提示，通常，这种提示会在主线程长期无法响应时出现。所以我们要避免这种情况，就要使用多线程。<br><img src="/2017/03/12/怒怼Rxjava2-RxAndroid-1.html/14893255798148.jpg" alt="执行结果" title="执行结果"></p>
+<p>我们的代码是运行成功了，结果也没有问题。<br>可是，因为查询操作通常都是很耗时的，按下按钮后，我们也会卡在主界面无法操作。并且，Android Monitor也给出了类似下面这样的提示，通常，这种提示会在主线程长期无法响应时出现。所以我们要避免这种情况，就要使用多线程。<br></p>
 <p>Rxjava一个最牛逼的地方就在于，可以极其方便地将代码执行在不同线程中。我们再来重构一下我们的代码。</p>
 <figure class="highlight dart"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    protected <span class="keyword">void</span> onStart() &#123;</div><div class="line">        <span class="keyword">super</span>.onStart();</div><div class="line">        Observable&lt;<span class="built_in">String</span>&gt; onClickObservable = createOnClickObservable();</div><div class="line">        onClickObservable</div><div class="line">                .observeOn(Schedulers.io())</div><div class="line">                .map(<span class="keyword">new</span> <span class="built_in">Function</span>&lt;<span class="built_in">String</span>, <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    public <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; apply(<span class="built_in">String</span> query) throws Exception &#123;</div><div class="line">                        <span class="keyword">return</span> mCheeseSearchEngine.search(query);</div><div class="line">                    &#125;</div><div class="line">                &#125;)</div><div class="line">                .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                .subscribe(<span class="keyword">new</span> Consumer&lt;<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt;&gt;() &#123;</div><div class="line">                    <span class="meta">@Override</span></div><div class="line">                    public <span class="keyword">void</span> accept(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; cheese) throws Exception &#123;</div><div class="line">                        showResult(cheese);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>可以看到，我们在build链中添加了两个observeOn()方法。这个方法用于指定接下来的操作所在的线程。Rx为我们预先定义了很多Scheduler，代表执行的线程环境，我们可以很方便地使用它们。比如Scheduler.io()就代表在io线程中执行，AndroidScheduler.mainThread()表示主线程。</p>
