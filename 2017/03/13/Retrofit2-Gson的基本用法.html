@@ -97,7 +97,7 @@
 <meta property="og:description" content="Retrofit基本使用基本用法我们来实现一个最基本的请求Json结果的文件的Demo。
 引入依赖首先新建一个工程，在app的build.gradle中加入以下依赖：
 123compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.google.code.gson:gson:2.7&apos;compile &apos;com.squareup.retro">
-<meta property="og:updated_time" content="2017-03-13T13:43:56.000Z">
+<meta property="og:updated_time" content="2017-03-13T13:45:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Retrofit2+Gson的基本用法">
 <meta name="twitter:description" content="Retrofit基本使用基本用法我们来实现一个最基本的请求Json结果的文件的Demo。
@@ -393,6 +393,7 @@
 <p>大家可以把目标链接用注释写在上面，方便写代码的时候对照。</p>
 <p><code>@Get</code>注解中编写请求链接的基本结构，其中用{}括起来的，表示替换块(replacation block)，可以在注解的方法中，通过@Path标注的参数，进行替换。<br>这里有两点需要注意，替换块中的字符串需要和<code>@Path</code>参数的字符串相同才能被识别。其次，Call<t>，这个T表示response返回的类型。</t></p>
 <p>这个接口实现的请求方法，会在之后被用来构造Call<t>对象，而这个Call<t>对象就是封装好的可调用对象，它是后面实际执行请求所需要的关键对象。我们可以使用call进行异步或同步调用。最后，我们会将这一系列步骤串起来总结。</t></t></p>
+<a id="more"></a>
 <h2 id="为json定义Bean"><a href="#为json定义Bean" class="headerlink" title="为json定义Bean"></a>为json定义Bean</h2><p>Call中的泛型类型为User，它是我们自定义的Bean。所谓Bean，我的理解就是一个包含Json对象所有字段的数据模型类，是一个纯java类。这里，我们简单地定义一下这个User Bean。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line">    <span class="keyword">private</span> String phoneNumber;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name, <span class="keyword">int</span> age, String phoneNumber)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">        <span class="keyword">this</span>.phoneNumber = phoneNumber;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>代码很简单，就是包含了Json中出现的所有字段。</p>
