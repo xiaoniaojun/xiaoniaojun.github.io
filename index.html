@@ -380,164 +380,17 @@
 
       
         
-          
-            <h1 id="使用Scenes和Transitions构建动画Views"><a href="#使用Scenes和Transitions构建动画Views" class="headerlink" title="使用Scenes和Transitions构建动画Views"></a>使用Scenes和Transitions构建动画Views</h1><p>UI经常会由于响应用户输入或其他事件而产生变化。例如，一个activity中包含了一个表单供用户进行搜索。当用户提交搜索后这个表单会被隐藏，然后在这个表单的位置处显示一个列表来呈现搜索结果。</p>
+          <h1 id="使用Scenes和Transitions构建动画Views"><a href="#使用Scenes和Transitions构建动画Views" class="headerlink" title="使用Scenes和Transitions构建动画Views"></a>使用Scenes和Transitions构建动画Views</h1><p>UI经常会由于响应用户输入或其他事件而产生变化。例如，一个activity中包含了一个表单供用户进行搜索。当用户提交搜索后这个表单会被隐藏，然后在这个表单的位置处显示一个列表来呈现搜索结果。</p>
 <p>为了提供视觉上的连贯性，你可以使用动画来在不同的视图结构中进行变换。</p>
 <p>Android有一个transitions framework，用来轻松地实现两种视图结构之间的动画变换。这个框架的动画机制是在运行时随时间改变视图的属性值来产生动画效果。框架中还内建了一些常用的动画效果，您也可以自定义动画和变换生命周期回调。</p>
 <p>下面会介绍如何使用内建动画来在不同视图层次中执行变换，也会介绍如何自定义动画。</p>
-<h1 id="The-Transitions-Framework"><a href="#The-Transitions-Framework" class="headerlink" title="The Transitions Framework"></a>The Transitions Framework</h1><p>让您的ui具有丰富多彩的动画效果，不仅会提供视觉吸引力，还会因动画突显出的变化，为用户提供视觉线索，帮助用户了解您的app的工作过程。</p>
-<p>为了帮助您在一个view层次结构之间进行动画，Android提供了Transition框架。此框架为view层次结构中的变化应用一个或多个动画。</p>
-<p>这个框架具有以下特性：</p>
-<p><em>Group-level动画</em><br>    为view层次中的view应用一个或多个动画效果。</p>
-<p><em>基于变换的动画</em><br>    基于从开始到结束不断改变view的属性值来实现动画。（值动画）</p>
-<p><em>内建动画</em><br>    提供预定义动画来满足一般的动画效果需求，例如渐变或者移动。</p>
-<p><em>资源文件支持</em><br>    可以从布局资源文件中加载view和内建动画。</p>
-<p><em>生命周期回调</em><br>    提供回调以更好地控制整个动画和view层次变化过程。</p>
-<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>图1中的示例展示了如何利用动画来提供可视化提示从而帮助用户提升体验。随着app从搜索条视图变为搜索结果视图，不再使用的视图将会淡出，而新的视图将会淡入。</p>
-<p>这个动画效果就使用了Transition框架。这个框架动态地变换两个视图层次结构中的所有View。View层次结构可以是简单地单个View组成，也可以是包含复杂ViewGroup的View树。框架通过在起始View层次到最终View层次中，改变其中View的一个或多个属性来实现动画。</p>
-<p>transition框架在view层级与动画之间做了一个中间层。它的目的在于保存view层次结构的状态，在不同层次结构之间变换来改变屏幕显示，并且通过保存和执行动画定义来实现动画。</p>
-<p>下图展示了View层次结构，框架对象以及动画三者之间的关系：</p>
-<p><img src="media/14904473730242/14904496839802.jpg" alt=""></p>
-<p>框架为场景、变换和变换管理器提供了抽象。之后会详细介绍它们。要使用这个框架，你需要为执行变换的视图层次创建scenes。接下来，您需要为用到的每个动画创建transition。要执行动画，你需要使用transition manager来指定transtion和ending scene。这个过程会在接下来详细说明。</p>
-<h2 id="Scenes"><a href="#Scenes" class="headerlink" title="Scenes"></a>Scenes</h2><p>scenes用于保存view层次结构的状态，包括它的所有View和View的属性值。View层次结构可以是一个单一View，也可以是由多个View和子layout构成的复杂View树。保存View层次结构到scene中后，你就可以将这个状态变换成另一个scene。框架提供了<a href="https://developer.android.com/reference/android/transition/Scene.html" target="_blank" rel="external">Scene</a>类来表示一个scene。</p>
-<p>transition框架允许你从布局资源文件或者ViewGroup对象中创建scenes。</p>
-<p>如果你动态地生成一个视图层次结构或者在运行时修改它，那在代码中创建scenes是很有用的。</p>
-<p>多数情况下，你不需要明确地创建初始scene。如果你已经应用了一个transition，framework就会在随后的transition中，使用之前的ending scene当做现在的start scene。如果你没有应用任何transition，framework就会收集当前屏幕状态当作view们的信息。</p>
-<p>在你执行scene变换时，可以为scene定义actions。比如，在变换执行完之后用于清理view的设置。</p>
-<p>除了视图层次结构以及它的属性值之外，scene还储存了对视图层次结构的父级的引用。此根视图称为scene root。scene的改变及影响scene的动画发生在scene root内部。</p>
-<h2 id="Transitions"><a href="#Transitions" class="headerlink" title="Transitions"></a>Transitions</h2><p>在transition framework中，动画创建了一系列的帧，描绘了starting和ending scenes中view hierarchies之间的变化。动画的先关信息储存在<a href="https://developer.android.com/reference/android/transition/Transition.html" target="_blank" rel="external">Transition</a>对象中。使用TransitionManager实例应用transition，就可以开始执行动画。framework可以在两个不同的scene之间执行换换，也可以在当前scene的不同状态变换。</p>
-<p>该框架包括一组内置的转换，用于常用的动画效果，如渐变和调整视图大小。您还可以使用animation framework中的API来自定义transitions以创建自己的动画效果。这个framework还允许您组合多重不同的内置或自定义transition到一个transition集合中。</p>
-<p>Transition的生命周期与Activity的生命周期类似，它代表框架所监视的在动画开始和结束之间的transition状态。在重要的生命周期状态下，framework将会调用callback，您可以实现这些回调，以便在transition的不同阶段对用户界面进行调整。</p>
-<h2 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h2><ul>
-<li><p>对<a href="https://developer.android.com/reference/android/view/SurfaceView.html" target="_blank" rel="external">SurfaceView</a>应用的动画效果可能不会正常显示，因为它的实例会在非UI线程中更新，所以这个更新会导致其与其他动画不同步。</p>
-</li>
-<li><p>对<a href="https://developer.android.com/reference/android/view/TextureView.html" target="_blank" rel="external">TextureView</a>执行某些transition可能不会产生期望的动画。</p>
-</li>
-<li><p>AdapterView的子类如（ListView）管理子视图的方式与Transition framework不兼容。如果您试图为它们设置动画，显示设备可能会挂起。</p>
-</li>
-<li><p>如果您视图使用动画调整TextView的大小，则文本会在TextView完全重新调整大小之前弹到新的位置上去。为了避免此问题，请勿为包含文本的view执行resizing动画。</p>
-</li>
-</ul>
-<h1 id="创建Scene"><a href="#创建Scene" class="headerlink" title="创建Scene"></a>创建Scene</h1><p>Scene保存view hierarchy状态，包括它里面的所有view和它们的属性值。transition framework可以在起始scene和结束scene之间执行动画。起始scene通常都是由当前UI的状态来确定，而对于结束scene，您可以从布局资源文件或一组view中创建。</p>
-<blockquote>
-<p><strong>注意</strong>：其实如果只是在单个view中执行动画，可以不用scene。</p>
-</blockquote>
-<h2 id="从布局资源中创建Scene"><a href="#从布局资源中创建Scene" class="headerlink" title="从布局资源中创建Scene"></a>从布局资源中创建Scene</h2><p>您可以从布局资源文件中创建一个scene实例。当资源文件中的view hierarchy大部分都是静态时推荐使用此方法。以此生成的scene表示创建Scene实例时view hierarchy的状态。如果你更改了view hierarchy，则需要重新创建scene。framework会将整个布局文件中的view hierarchy都创建出来，无法只创建文件中的一部分。</p>
-<p>用这种方法创建scene，需要提供一个ViewGroup类型的scene root，调用<a href="https://developer.android.com/reference/android/transition/Scene.html#getSceneForLayout(android.view.ViewGroup, int, android.content.Context" target="_blank" rel="external">Scene.getSceneForLayout()</a>)方法，还需要提供该布局文件的资源id。</p>
-<h3 id="为Scenes定义布局"><a href="#为Scenes定义布局" class="headerlink" title="为Scenes定义布局"></a>为Scenes定义布局</h3><p>本节剩余部分将介绍如何使用相同的scene root来创建两个不同的scene。您可以看到这些代码还表明您可以加载多个不相关的Scene对象。</p>
-<p>实例代码中的布局组成如下：</p>
-<ul>
-<li>一个main layout，包含一个text label和一个子layout。</li>
-<li>一个relative layout，作为第一个scene，有两个text field。</li>
-<li>一个relative layout，作为第二个scene，有两个相同的text field，不过顺序不同。</li>
-</ul>
-<p>这个例子中，动画发生在main layout的child layout中，main layout的text label始终是静态的。</p>
-<p>main layout的定义如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/master_layout"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/title"</span></div><div class="line">        <span class="attr">...</span></div><div class="line">        <span class="attr">android:text</span>=<span class="string">"Title"</span>/&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">FrameLayout</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/scene_root"</span>&gt;</div><div class="line">        <span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/a_scene"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这个布局定义了一个text field和一个子layout作为scene root。此时main layout中包含了第一个scene的布局。这样做使得app既可以将它作为起始ui的一部分显示，又能将它加载为scene。</p>
-<p>第一个scene的布局如下：</p>
-<p><code>res/layout/a_scene.xml</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/scene_container"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> &gt;</div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/text_view1</span></div><div class="line">        android:text="<span class="attr">Text</span> <span class="attr">Line</span> <span class="attr">1</span>" /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/text_view2</span></div><div class="line">        android:text="<span class="attr">Text</span> <span class="attr">Line</span> <span class="attr">2</span>" /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>下面这个布局用于第二个scene，它具有相同的text fields（相同的IDs），但是顺序不同。</p>
-<p><code>res/layout/another_scene.xml</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/scene_container"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> &gt;</div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/text_view2</span></div><div class="line">        android:text="<span class="attr">Text</span> <span class="attr">Line</span> <span class="attr">2</span>" /&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/text_view1</span></div><div class="line">        android:text="<span class="attr">Text</span> <span class="attr">Line</span> <span class="attr">1</span>" /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h2 id="从Layouts生成Scenes"><a href="#从Layouts生成Scenes" class="headerlink" title="从Layouts生成Scenes"></a>从Layouts生成Scenes</h2><pre><code>创建好这两个relative layout后，你就可以获取它们的scene了。之后你就可以在这两个UI之间配置Transition。要获取scene，您需要scene root的引用以及布局资源的ID。
-
-下面的代码片段展示了如何获取scene root的引用以及如何从布局文件中创建Scene。
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Scene mAScene;</div><div class="line">Scene mAnotherScene;</div><div class="line"></div><div class="line"><span class="comment">// Create the scene root for the scenes in this app</span></div><div class="line">mSceneRoot = (ViewGroup) findViewById(R.id.scene_root);</div><div class="line"></div><div class="line"><span class="comment">// Create the scenes</span></div><div class="line">mAScene = Scene.getSceneForLayout(mSceneRoot, R.layout.a_scene, <span class="keyword">this</span>);</div><div class="line">mAnotherScene = Scene.getSceneForLayout(mSceneRoot, R.layout.another_scene, <span class="keyword">this</span>);</div></pre></td></tr></table></figure>
-</code></pre><p>在这个app里，现在有两个Scene了。它们都使用<code>res/layout/activity_main.xml</code>内定义的FrameLayout作为scene root。</p>
-<h2 id="利用代码创建Scene"><a href="#利用代码创建Scene" class="headerlink" title="利用代码创建Scene"></a>利用代码创建Scene</h2><p>您也可以使用代码从ViewGroup中创建一个Scene实例。这个方法适用于当你直接修改view hierarchy，或者动态地生成了它们。</p>
-<p>要从代码中的view hierarchy创建Scene，使用Scene(sceneRoot, viewHierarchy)构造函数。此构造函数等同于在以及inflate过的布局文件中调用Scene.getSceneForLayout()方法。</p>
-<figure class="highlight haxe"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Scene mScene;</div><div class="line"></div><div class="line"><span class="comment">// Obtain the scene root element</span></div><div class="line">mSceneRoot = (ViewGroup) someOtherLayoutElement;</div><div class="line"></div><div class="line"><span class="comment">// Obtain the view hierarchy to add as a child of the scene root</span></div><div class="line"><span class="comment">// when this scene is entered</span></div><div class="line">mViewHierarchy = (ViewGroup) someOtherLayoutElement;</div><div class="line"></div><div class="line"><span class="comment">// Create a scene</span></div><div class="line">mScene = <span class="keyword">new</span> <span class="type">Scene</span>(mSceneRoot, mViewHierarchy);</div></pre></td></tr></table></figure>
-<h2 id="创建Scene-Actions"><a href="#创建Scene-Actions" class="headerlink" title="创建Scene Actions"></a>创建Scene Actions</h2><p>framework允许您定义系统在进入或退出场景时运行的自定义action。在多数情况下，自定义动作不是必要的，因为framework会自动让场景执行动画。</p>
-<p>Scene Actions用于处理以下情况：</p>
-<p>为不再同一view hierarchy下的view执行动画。您可以使用exit和entry scene action为起始场景和结束场景执行view动画。</p>
-<p>为framework无法自动执行动画的view设置动画。例如ListView对象。</p>
-<p>要提供自定义scene actions，您需要定义一个Runnable对象作为action，并且通过Scene.setExitAction()或Scene.setEnterAction()方法。framework会在执行变换动画之前为starting scene调用setExitAction()方法，在执行变换动画之后为ending scene调用setEnterAction()方法。</p>
-<blockquote>
-<p>注意：不要使用scene actions在starting 和 ending scenes中的view之间传递数据。</p>
-</blockquote>
-<h1 id="执行Transition"><a href="#执行Transition" class="headerlink" title="执行Transition"></a>执行Transition</h1><p>在Transition Framework中，动画会在starting和 ending scene中的view hierarchy创建一系列帧以描绘改变。framework中使用transition来表示动画，它包含了动画的信息。要执行动画，你需要为transition manager提供需要使用的transition对象和ending scene。</p>
-<p>接下来介绍如何使用内置transitions来实现移动、改变尺寸和淡入淡出效果。之后会讲解如何自定义transitions。</p>
-<h2 id="创建Transition"><a href="#创建Transition" class="headerlink" title="创建Transition"></a>创建Transition</h2><p>之前我们讲解了如何创建scene，用以表示不同view hierarchy的状态。当你已经定义好了starting scene和ending scene后，就需要创建一个<a href="https://developer.android.com/reference/android/transition/Transition.html" target="_blank" rel="external">Transition</a>对象来定义动画。这个framework能让你利用资源文件生成内置transition并inflate它，或者你还可以直接通过代码创建内置transition。</p>
-<table>
-<thead>
-<tr>
-<th>Class</th>
-<th>Tag</th>
-<th>Attributes</th>
-<th>Effect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AutoTransition</td>
-<td><autotransition></autotransition></td>
-<td>-</td>
-<td>默认的transition，淡出，移动和resize，淡出</td>
-</tr>
-<tr>
-<td>Fade</td>
-<td><fade></fade></td>
-<td>android:fadingMode=”[fade_in</td>
-<td>fade_out</td>
-<td>fade_in_out]”</td>
-<td>略</td>
-</tr>
-<tr>
-<td>ChangeBounds</td>
-<td><changebounds></changebounds></td>
-<td>-</td>
-<td>移动并resize views</td>
-</tr>
-</tbody>
-</table>
-<h3 id="从资源文件创建transition"><a href="#从资源文件创建transition" class="headerlink" title="从资源文件创建transition"></a>从资源文件创建transition</h3><p>这种方法能使你不必改变activity中的代码就能修改transition定义。通过这种方法也能让你将复杂的变换定义从代码中分离出去。</p>
-<p>要在资源文件中指定内置transition，执行以下步骤：</p>
-<ol>
-<li>在project中添加<code>res/transition/</code>目录。</li>
-<li>在这个目录内新建一个XML资源文件。</li>
-<li>为XML添加内建transition节点。</li>
-</ol>
-<p>例如，下面这个资源文件指定了Fade transition。</p>
-<p><code>res/transition/fade_transition/xml</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">fade</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span> /&gt;</span></div></pre></td></tr></table></figure>
-<p>下面的代码片段展示了在activity中如何从资源文件中inflate一个transition实例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Transition mFadeTransition = TransitionInflater.from(<span class="keyword">this</span>).inflateTransition(R.transition.fade_transition);</div></pre></td></tr></table></figure>
-<h3 id="利用代码创建transition实例"><a href="#利用代码创建transition实例" class="headerlink" title="利用代码创建transition实例"></a>利用代码创建transition实例</h3><p>这种方法用于动态创建transition对象，例如你在代码中修改了ui，并且可以创建不带参数的简单transition。</p>
-<p>使用Transition内部定义的类的构造方法来创建内建transition。例如，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Transition mFadeTransition = <span class="keyword">new</span> Fade();</div></pre></td></tr></table></figure>
-<h2 id="执行Transition-1"><a href="#执行Transition-1" class="headerlink" title="执行Transition"></a>执行Transition</h2><p>通常，变换用于对用户事件的相应。例如，考虑如下app：用户输入一个搜索条目并点击搜索按钮，app将搜索框淡出，并将结果列表淡入显示。</p>
-<p>为了响应事件而执行scene变换，您需要调用TransitionManager.go()静态方法，传入ending scene和transition实例来执行动画：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">TransitionManager.go(mEndingScene, mFadeTransition);</div></pre></td></tr></table></figure>
-<p>framework会根据transition指定的动画效果，将当前ui变换为ending scene内的scene root代表的view hierarchy。这里的starting scene是上次transition的ending scene。如果没有执行过transition，则会根据当前屏幕状态确定starting scene。</p>
-<p>如果你没有指定transition，transition manager就会应用一个automatic transition，它会自动地完成一些适当的动画。更多详细信息请查阅<a href="https://developer.android.com/reference/android/transition/TransitionManager.html" target="_blank" rel="external">TransitionManager</a> API参考。</p>
-<h2 id="选择指定的目标View"><a href="#选择指定的目标View" class="headerlink" title="选择指定的目标View"></a>选择指定的目标View</h2><p>默认情况下，framework会为starting scene中的所有view应用transition。在某些情况下，你可能只需要对scene的某个子集执行动画。例如，framework并不支持为ListView执行动画，所以你不应该在transition中包含它们。这个framework允许你选择指定的view来执行动画。</p>
-<p>每个执行动画的view称为target。你只能指定scene关联的view hierarchy中的部分作为target。</p>
-<p>在开始执行transition之前，调用<a href="https://developer.android.com/reference/android/transition/Transition.html#removeTarget(android.view.View" target="_blank" rel="external">removeTarget()</a>)方法来将view从target中移除。使用<a href="https://developer.android.com/reference/android/transition/Transition.html#addTarget(android.view.View" target="_blank" rel="external">addTarget()</a>)方法来添加target。</p>
-<h2 id="指定多个Transitions"><a href="#指定多个Transitions" class="headerlink" title="指定多个Transitions"></a>指定多个Transitions</h2><p>最佳的动画效果在于让动画类型与响应行为相匹配，例如淡出效果适用于那些不再使用的view。如果您希望移动view的位置，那么使用移动动画可以帮助用户确定view的新位置。</p>
-<p>framework提供了多transition支持，让您可以在一个transition集内定义多个独立的transition效果。</p>
-<p>下面的例子展示了如何在xml中定义transition集合：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">transition</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:tarnsitionOrdering</span>=<span class="string">"sequential"</span>&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">fade</span> <span class="attr">android:fadingMode</span>=<span class="string">"fade_out"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">changeBounds</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">fade</span> <span class="attr">android:fadingMode</span>=<span class="string">"fade_in"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">transtion</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>需要调用<a href="https://developer.android.com/reference/android/transition/TransitionInflater.html#from(android.content.Context" target="_blank" rel="external">TransitionInflater.from()</a>)方法来inflate Transition集合到一个TransitionSet对象中。这个TransitionSet类继承自Transition，所以你可以直接用transition manager来使用它。</p>
-<h2 id="Apply-a-Transition-Without-Scenes"><a href="#Apply-a-Transition-Without-Scenes" class="headerlink" title="Apply a Transition Without Scenes"></a>Apply a Transition Without Scenes</h2><p>改变view hierarchy并不是修改ui的唯一方法。你也可以通过在当前view hierarchy中添加、修改、移除子view来更改ui。例如，你可以只用一个layout来完成搜索功能：一开始在layout中显示一个搜索条目和搜索图标。当用户点击搜索按钮后，使用ViewGroup.removeView()移除搜索条并用ViewGroup.addView()来添加搜索结果。</p>
-<p>如果另一个方案需要两个几乎相同的view hierarchy，就可以考虑使用这种方式替代。</p>
-<p>如果采用这种方式，你就不必创建scene了。你可以使用delayed transition来在view hierarchy的不同状态下变换。这种机制的工作原理是，在你开始更改View hierarchy之前，开始记录更改，最后在系统重绘ui时执行动画。</p>
-<p>在单个view hierarchy中创建delayed transition，需要执行如下步骤：</p>
-<ol>
-<li>当事件触发，需要执行变换时，调用TransitionManager.beginDelayedTransition()方法并提供需要执行动画的所有view的parent view和需要使用的transition。framework会自动将这些状态保存起来。</li>
-<li>根据需要修改这些view，framework会记录你对这些view以及它们的属性的修改。</li>
-<li>当系统开始重绘ui时，会根据您做出的更改，执行动画。</li>
-</ol>
-<p>下面是代码示例：</p>
-<p><code>res/layout/activity_main.xml</code></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">RelativeLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/mainLayout"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> &gt;</div><div class="line">    <span class="tag">&lt;<span class="name">EditText</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/inputText"</span></div><div class="line">        <span class="attr">android:layout_alignParentLeft</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_alignParentTop</span>=<span class="string">"true"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span> /&gt;</div><div class="line">    ...</div><div class="line"><span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>下面的代码展示了添加一个text view的动画：<br><code>MainActivity.java</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> TextView mLabelText;</div><div class="line"><span class="keyword">private</span> Fade mFade;</div><div class="line"><span class="keyword">private</span> ViewGroup mRootView;</div><div class="line">...</div><div class="line"></div><div class="line"><span class="comment">// 加载layout</span></div><div class="line"><span class="keyword">this</span>.setContentView(R.layout.activity_main);</div><div class="line">...</div><div class="line"></div><div class="line"><span class="comment">// 创建并设置TextView</span></div><div class="line">mLabelText = <span class="keyword">new</span> TextView();</div><div class="line">mLabelText.setText(<span class="string">"Label"</span>).setId(<span class="string">"1"</span>);</div><div class="line"></div><div class="line"><span class="comment">// 获取root View并创建一个transition</span></div><div class="line">mRootView = (ViewGroup) findViewById(R.id.mainLayout);</div><div class="line">mFade = <span class="keyword">new</span> Fade(IN);</div><div class="line"></div><div class="line"><span class="comment">// 开始记录对view hierarchy的更改</span></div><div class="line">TransitionManager.beginDelayedTransition(mRootView, mFade);</div><div class="line"></div><div class="line"><span class="comment">// 在view hierarchy中添加TextView</span></div><div class="line">mRootView.addView(mLabelText);</div><div class="line"></div><div class="line"><span class="comment">// 当系统重绘界面显示这个改变时，</span></div><div class="line"><span class="comment">// framework会自动添加fade in动画</span></div></pre></td></tr></table></figure>
-<h2 id="定义transition生命周期回调"><a href="#定义transition生命周期回调" class="headerlink" title="定义transition生命周期回调"></a>定义transition生命周期回调</h2><p>这个transition生命周期和Activity的生命周期差球不多。它代表从调用TransitionManager.go()方法到动画结束这期间的transition状态。在重要的阶段，framework会调用<a href="https://developer.android.com/reference/android/transition/Transition.TransitionListener.html" target="_blank" rel="external">TransitionListener</a>接口定义的回调。</p>
-<p>比如说，在scene改变的时候，拷贝从starting view hierarchy到ending view hierarchy之中的view的属性值。你不能简单地就从starting view拷贝属性值到ending view，因为ending view在动画结束之前还不会被inflate。所以，你必须在framework完成动画之后，将实现拷贝在变量内的值赋给新的视图。通过在Activity实现<a href="https://developer.android.com/reference/android/transition/Transition.TransitionListener.html#onTransitionEnd(android.transition.Transition" target="_blank" rel="external">TransitionListener.onTransitionEnd()</a>)方法，来在Transition完成时得到通知。</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/26/使用transition框架.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
