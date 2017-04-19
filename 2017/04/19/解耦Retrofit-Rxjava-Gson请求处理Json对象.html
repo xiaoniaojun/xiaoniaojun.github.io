@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Android,Retrofit,Retrofit2,Gson," />
+  <meta name="keywords" content="Android,设计模式," />
 
 
 
@@ -87,22 +87,19 @@
 
 
 
-<meta name="description" content="Retrofit基本使用基本用法我们来实现一个最基本的请求Json结果的文件的Demo。
-引入依赖首先新建一个工程，在app的build.gradle中加入以下依赖：
-123compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.google.code.gson:gson:2.7&apos;compile &apos;com.squareup.retro">
+<meta name="description" content="废话最近在做一个面试项目，需求很简单，就是网络请求Json，然后显示在ListView中。正好，简单的需求可以让我自由自在地玩弄一下代码，正好学了这么久的设计模式，我的解耦大刀早已饥渴难耐。
+一般做法网络请求一个Json并处理的一般步骤，在这里简单的说一下。首先构造Retrofit需要的API接口，然后使用Retrofit.create()给这个接口加上动态代理来，最后利用这个接口的方法，获取到需">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Retrofit2+Gson的基本用法">
-<meta property="og:url" content="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html">
+<meta property="og:title" content="解耦Retrofit+Rxjava+Gson请求处理Json对象">
+<meta property="og:url" content="http://xiaoniaojun.github.io/2017/04/19/解耦Retrofit-Rxjava-Gson请求处理Json对象.html">
 <meta property="og:site_name" content="爱鸟人士">
-<meta property="og:description" content="Retrofit基本使用基本用法我们来实现一个最基本的请求Json结果的文件的Demo。
-引入依赖首先新建一个工程，在app的build.gradle中加入以下依赖：
-123compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.google.code.gson:gson:2.7&apos;compile &apos;com.squareup.retro">
-<meta property="og:updated_time" content="2017-03-13T13:45:39.000Z">
+<meta property="og:description" content="废话最近在做一个面试项目，需求很简单，就是网络请求Json，然后显示在ListView中。正好，简单的需求可以让我自由自在地玩弄一下代码，正好学了这么久的设计模式，我的解耦大刀早已饥渴难耐。
+一般做法网络请求一个Json并处理的一般步骤，在这里简单的说一下。首先构造Retrofit需要的API接口，然后使用Retrofit.create()给这个接口加上动态代理来，最后利用这个接口的方法，获取到需">
+<meta property="og:updated_time" content="2017-04-19T11:49:10.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Retrofit2+Gson的基本用法">
-<meta name="twitter:description" content="Retrofit基本使用基本用法我们来实现一个最基本的请求Json结果的文件的Demo。
-引入依赖首先新建一个工程，在app的build.gradle中加入以下依赖：
-123compile &apos;com.squareup.retrofit2:retrofit:2.2.0&apos;compile &apos;com.google.code.gson:gson:2.7&apos;compile &apos;com.squareup.retro">
+<meta name="twitter:title" content="解耦Retrofit+Rxjava+Gson请求处理Json对象">
+<meta name="twitter:description" content="废话最近在做一个面试项目，需求很简单，就是网络请求Json，然后显示在ListView中。正好，简单的需求可以让我自由自在地玩弄一下代码，正好学了这么久的设计模式，我的解耦大刀早已饥渴难耐。
+一般做法网络请求一个Json并处理的一般步骤，在这里简单的说一下。首先构造Retrofit需要的API接口，然后使用Retrofit.create()给这个接口加上动态代理来，最后利用这个接口的方法，获取到需">
 
 
 
@@ -130,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html"/>
+  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/04/19/解耦Retrofit-Rxjava-Gson请求处理Json对象.html"/>
 
 
 
 
 
-  <title> Retrofit2+Gson的基本用法 | 爱鸟人士 </title>
+  <title> 解耦Retrofit+Rxjava+Gson请求处理Json对象 | 爱鸟人士 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -299,7 +296,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html">
+    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/04/19/解耦Retrofit-Rxjava-Gson请求处理Json对象.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Ruby">
@@ -320,7 +317,7 @@
             
             
               
-                Retrofit2+Gson的基本用法
+                解耦Retrofit+Rxjava+Gson请求处理Json对象
               
             
           </h1>
@@ -335,8 +332,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-13T21:43:18+08:00">
-                2017-03-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-19T19:38:17+08:00">
+                2017-04-19
               </time>
             
 
@@ -354,8 +351,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/13/Retrofit2-Gson的基本用法.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/13/Retrofit2-Gson的基本用法.html" itemprop="commentCount"></span>
+                <a href="/2017/04/19/解耦Retrofit-Rxjava-Gson请求处理Json对象.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/19/解耦Retrofit-Rxjava-Gson请求处理Json对象.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -381,46 +378,16 @@
       
 
       
-        <h1 id="Retrofit基本使用"><a href="#Retrofit基本使用" class="headerlink" title="Retrofit基本使用"></a>Retrofit基本使用</h1><h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>我们来实现一个最基本的请求Json结果的文件的Demo。</p>
-<h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><p>首先新建一个工程，在app的build.gradle中加入以下依赖：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.2.0'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.google.code.gson:gson:2.7'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:converter-gson:2.0.2'</span></div></pre></td></tr></table></figure>
-<p>第一行自然是引入retrofit2啦，<br>由于我们需要解析Json文本，Retrofit为我们提供了一个很方便的工具Converter。我们在获取网络资源后，通常需要对其内容进行解析，这个步骤可以利用线程的解析库来实现，并且Retrofit为几个常见的解析库提供了相应了Converter类。Gson是一个常见的Json解析库，Retrofit为它提供了Converter。<br>第二行和第三行就是分别引入Gson和GsonConverterFactory的，稍后用到这个Converter的时候会再提一下的。</p>
-<p>然后，我们随便上传一个Json文件在GitHub上，这里大家就自己弄啦。</p>
-<p>我传了一个Json文件上去，地址为：<br><code>https://raw.githubusercontent.com/xiaoniaojun/xiaoniaojun.github.io/master/test.json</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"><span class="attr">age</span>: <span class="number">22</span>,</div><div class="line"><span class="attr">name</span>: <span class="string">"Bird"</span>,</div><div class="line"><span class="attr">phoneNumber</span>: <span class="string">"13550626331"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>记下这个地址，后面的构建会用到。<br>注意：这个地址可能随时失效，请大家自己动手上传。</p>
-<h2 id="构建请求接口"><a href="#构建请求接口" class="headerlink" title="构建请求接口"></a>构建请求接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// https://raw.githubusercontent.com/xiaoniaojun/xiaoniaojun.github.io/master/test.json</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GitHub</span> </span>&#123;</div><div class="line">    <span class="meta">@GET</span>(<span class="string">"&#123;userId&#125;/&#123;userId&#125;.github.io/master/&#123;fileName&#125;"</span>)</div><div class="line">    <span class="function">Call&lt;User&gt; <span class="title">results</span><span class="params">(@Path(<span class="string">"userId"</span>)</span> String userId, @<span class="title">Path</span><span class="params">(<span class="string">"fileName"</span>)</span> String fileName)</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>大家可以把目标链接用注释写在上面，方便写代码的时候对照。</p>
-<p><code>@Get</code>注解中编写请求链接的基本结构，其中用{}括起来的，表示替换块(replacation block)，可以在注解的方法中，通过@Path标注的参数，进行替换。<br>这里有两点需要注意，替换块中的字符串需要和<code>@Path</code>参数的字符串相同才能被识别。其次，Call<t>，这个T表示response返回的类型。</t></p>
-<p>这个接口实现的请求方法，会在之后被用来构造Call<t>对象，而这个Call<t>对象就是封装好的可调用对象，它是后面实际执行请求所需要的关键对象。我们可以使用call进行异步或同步调用。最后，我们会将这一系列步骤串起来总结。</t></t></p>
-<a id="more"></a>
-<h2 id="为json定义Bean"><a href="#为json定义Bean" class="headerlink" title="为json定义Bean"></a>为json定义Bean</h2><p>Call中的泛型类型为User，它是我们自定义的Bean。所谓Bean，我的理解就是一个包含Json对象所有字段的数据模型类，是一个纯java类。这里，我们简单地定义一下这个User Bean。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line">    <span class="keyword">private</span> String phoneNumber;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name, <span class="keyword">int</span> age, String phoneNumber)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">        <span class="keyword">this</span>.phoneNumber = phoneNumber;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>代码很简单，就是包含了Json中出现的所有字段。</p>
-<h2 id="构建GitHub实例"><a href="#构建GitHub实例" class="headerlink" title="构建GitHub实例"></a>构建GitHub实例</h2><p>我们的目的是，最终实现网络请求，刚刚说到，请求的必须品是Call<t>实例，而Call<t>实例是我们定义的接口方法results()返回的。所以，我们需要来构建接口类型GitHub的实例。</t></t></p>
-<p>我们需要利用retrofit提供的建造者方法一步一步地来构建出刚刚定义的接口类型的实例。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">            .baseUrl(<span class="string">"https://raw.githubusercontent.com/"</span>)</div><div class="line">            .addConverterFactory(GsonConverterFactory.create())</div><div class="line">            .build();</div><div class="line">            </div><div class="line">GitHub gitHub = retrofit.create(GitHub.class);</div></pre></td></tr></table></figure>
-<p>首先，我们通过建造者模式的方法Retrofit.Builder()，一步一步构造retrofit对象。</p>
-<ul>
-<li>baseUrl()方法用于指定基地址；</li>
-<li>addConverterFactroy()方法用于设置Converter。刚刚我们已经谈过它了，它的作用就是，在response返回对象的时候，将response的body体利用Gson来解析；</li>
-<li>最后以build()方法结束建造。</li>
-</ul>
-<p>这样retrofit就配置完成了，接下来调用retrofit的create方法，传入GitHub.class对象，来生成GitHub的实例。</p>
-<h2 id="最后一步"><a href="#最后一步" class="headerlink" title="最后一步"></a>最后一步</h2><p>得到了GitHub实例，我们就可以调用在GitHub接口中定义的results方法来获取Call<t>了。在results方法中，我们定义了构造请求链接的参数userId，以及FileName，这里我们传入”xiaoniaojun”和”test.json”，就可以得到构造好的Call<t>对象。</t></t></p>
-<p>此时，Call<t>的大刀早已饥渴难耐，就等着执行网络请求了！</t></p>
-<p>Retrofit为我们提供了两个方法，execute和enqueue，分别是同步/异步调用。同步调用就是直接调用，阻塞到返回，没什么好说的；异步调用需要传入一个Callback<t>对象，用来获取返回值。</t></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">Call&lt;User&gt; xiaoniaojun = gitHub.results(<span class="string">"xiaoniaojun"</span>, <span class="string">"test.json"</span>);</div><div class="line">        xiaoniaojun.enqueue(<span class="keyword">new</span> Callback&lt;User&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResponse</span><span class="params">(Call&lt;User&gt; call, Response&lt;User&gt; response)</span> </span>&#123;</div><div class="line">                User responseUser = response.body();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Call&lt;User&gt; call, Throwable t)</span> </span>&#123;</div><div class="line">                t.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
-<p>Callback<t>接口实现了两个方法，<br>onFailure表示请求失败，返回call对象和Throwable；<br>onResponse表示请求成功，返回call对象和response，这个response就是返回结果啦。</t></p>
-<p>这里要说一下这个call对象有什么用。在Retrofit中，Call<t>只能被执行一次，所以想要再次执行，就必须重新建立一个Call，或者，使用从回调中获取的这个call，它是可以被调用的。</t></p>
-<h2 id="基本使用步骤总结"><a href="#基本使用步骤总结" class="headerlink" title="基本使用步骤总结"></a>基本使用步骤总结</h2><p>这里我们来简单总结一下，使用Retrofit来进行一个完整网络请求的步骤：</p>
-<ol>
-<li>建立构造请求对象的接口；</li>
-<li>使用Retrofit.Builder()来build Retrofit实例。</li>
-<li>利用这个Retrofit实例的create方法，传入接口.class，创建出接口的实例。</li>
-<li>利用这个实例中，我们在接口内实现的那个方法，传入构造请求链接的相关变量，创建出Call<t>对象。</t></li>
-<li>利用这个Call对象进行同步或异步调用，异步调用最后都需要构造一个匿名内部类Callback<t>，实现onResponse回调和onFailure对返回结果进行处理。</t></li>
-</ol>
+        <h2 id="废话"><a href="#废话" class="headerlink" title="废话"></a>废话</h2><p>最近在做一个面试项目，需求很简单，就是网络请求Json，然后显示在ListView中。<br>正好，简单的需求可以让我自由自在地玩弄一下代码，正好学了这么久的设计模式，我的解耦大刀早已饥渴难耐。</p>
+<h2 id="一般做法"><a href="#一般做法" class="headerlink" title="一般做法"></a>一般做法</h2><p>网络请求一个Json并处理的一般步骤，在这里简单的说一下。<br>首先构造Retrofit需要的API接口，然后使用Retrofit.create()给这个接口加上动态代理来，最后利用这个接口的方法，<br>获取到需要的Observable对象。<br>接下来利用Observable对象对得到的返回结果进行处理。</p>
+<h2 id="解耦效果"><a href="#解耦效果" class="headerlink" title="解耦效果"></a>解耦效果</h2><p>最终，我写了一个高度聚合的模块，看看要完成上面这些步奏，我们的代码已经简化到这种程度：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> FactsHandler&lt;Facts&gt;(<span class="keyword">new</span> TestFactsHandler(),baseUrl,jsonFile).exec();</div></pre></td></tr></table></figure>
+<p>其中Facts泛型类型是<code>Json</code>对应的<code>JavaBean</code>类型，这个<code>TestFactsHandler</code>是接口<code>ICustomerFactsHandler</code>的实现类，<br>这个接口的定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ICustomerFactsHandler</span>&lt;<span class="title">J</span>&gt; </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(J jsonObject)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个接口就是用来处理网络请求的返回结果的，这个结果就是经过Gson解析过后的Facts对象。<br>所以，当我们需要自定义处理逻辑的时候，直接实现<code>ICustomerFactsHandler</code>就行啦~</p>
+<h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><p>具体解耦套路使用了静态工厂+ 策略模式，代码其实很简单，就是在泛型转换的时候多挣扎了一下（不扎实唉···）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FactsHandler</span>&lt;<span class="title">J</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"FactHandler"</span>;</div><div class="line">    <span class="comment">// 默认构造参数，用于测试</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_JSON = <span class="string">"facts.json"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String BASE_URL = <span class="string">"https://raw.githubusercontent.com/goeasyway/SimpleListDemo/master/"</span>;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="keyword">private</span> ICustomerFactsHandler mHandler;</div><div class="line">    <span class="keyword">private</span> String mBaseUrl;</div><div class="line">    <span class="keyword">private</span> String mJsonFile;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FactsHandler</span><span class="params">(ICustomerFactsHandler handler)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(handler, BASE_URL, DEFAULT_JSON);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FactsHandler</span><span class="params">(ICustomerFactsHandler handler, String baseUrl, String jsonFile)</span> </span>&#123;</div><div class="line">        mHandler = handler;</div><div class="line">        mBaseUrl = baseUrl;</div><div class="line">        mJsonFile = jsonFile;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 在主线程中执行处理函数</div><div class="line">     */</div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exec</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable&lt;J&gt; observable = (Observable&lt;J&gt;) ObserverFactory</div><div class="line">                .create(mBaseUrl, mJsonFile);</div><div class="line">        observable.subscribeOn(AndroidSchedulers.mainThread())</div><div class="line">                .subscribe(facts -&gt; &#123;</div><div class="line">                    mHandler.handle(facts);</div><div class="line">                &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 更改处理方法</div><div class="line">     *</div><div class="line">     * <span class="doctag">@param</span> handler 实现&#123;<span class="doctag">@link</span> ICustomerFactsHandler&#125;接口。</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHandler</span><span class="params">(ICustomerFactsHandler handler)</span> </span>&#123;</div><div class="line">        mHandler = handler;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Observer工厂类</div><div class="line">     * 用于生产一个用网络io请求json的Observable对象</div><div class="line">     */</div><div class="line">    <span class="meta">@SuppressWarnings</span>(&#123;<span class="string">"unchecked"</span>, <span class="string">"UnnecessaryLocalVariable"</span>&#125;)</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ObserverFactory</span> </span>&#123;</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * <span class="doctag">@param</span> baseUrl 基Url</div><div class="line">         * <span class="doctag">@param</span> json    json对象名</div><div class="line">         * <span class="doctag">@param</span> &lt;T&gt;     Retrofit的API接口类型</div><div class="line">         * <span class="doctag">@return</span> 装配好的Observable，可直接调用。</div><div class="line">         */</div><div class="line">        <span class="keyword">static</span> &lt;T extends JsonService&gt; Observable&lt;?&gt; create(String baseUrl, String json) &#123;</div><div class="line">            Retrofit retrofit = <span class="keyword">new</span> Retrofit.Builder()</div><div class="line">                    .baseUrl(baseUrl)</div><div class="line">                    .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))</div><div class="line">                    .addConverterFactory(GsonConverterFactory.create())</div><div class="line">                    .build();</div><div class="line"></div><div class="line">            T jsonService = retrofit.create((Class&lt;T&gt;) JsonService.class);</div><div class="line">            Observable&lt;?&gt; observable = jsonService.fetchJsonFeed(json);</div><div class="line">            <span class="keyword">return</span> observable;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>自从学了设计模式，看见什么都tm是耦合的，看见什么都tm想解耦！</p>
 
       
     </div>
@@ -467,11 +434,7 @@
           
             <a href="/tags/Android/" rel="tag"># Android</a>
           
-            <a href="/tags/Retrofit/" rel="tag"># Retrofit</a>
-          
-            <a href="/tags/Retrofit2/" rel="tag"># Retrofit2</a>
-          
-            <a href="/tags/Gson/" rel="tag"># Gson</a>
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
           
         </div>
       
@@ -484,8 +447,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/13/Retrofit文档翻译.html" rel="next" title="Retrofit文档翻译">
-                <i class="fa fa-chevron-left"></i> Retrofit文档翻译
+              <a href="/2017/03/26/使用transition框架.html" rel="next" title="使用transition框架">
+                <i class="fa fa-chevron-left"></i> 使用transition框架
               </a>
             
           </div>
@@ -493,10 +456,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/23/Retrofit源码分析.html" rel="prev" title="Retrofit源码分析">
-                Retrofit源码分析 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -560,8 +519,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/13/Retrofit2-Gson的基本用法.html"
-           data-title="Retrofit2+Gson的基本用法" data-url="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html">
+      <div class="ds-thread" data-thread-key="2017/04/19/解耦Retrofit-Rxjava-Gson请求处理Json对象.html"
+           data-title="解耦Retrofit+Rxjava+Gson请求处理Json对象" data-url="http://xiaoniaojun.github.io/2017/04/19/解耦Retrofit-Rxjava-Gson请求处理Json对象.html">
       </div>
     
   </div>
@@ -678,7 +637,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Retrofit基本使用"><span class="nav-number">1.</span> <span class="nav-text">Retrofit基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本用法"><span class="nav-number">1.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引入依赖"><span class="nav-number">1.2.</span> <span class="nav-text">引入依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建请求接口"><span class="nav-number">1.3.</span> <span class="nav-text">构建请求接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为json定义Bean"><span class="nav-number">1.4.</span> <span class="nav-text">为json定义Bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建GitHub实例"><span class="nav-number">1.5.</span> <span class="nav-text">构建GitHub实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后一步"><span class="nav-number">1.6.</span> <span class="nav-text">最后一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本使用步骤总结"><span class="nav-number">1.7.</span> <span class="nav-text">基本使用步骤总结</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#废话"><span class="nav-number">1.</span> <span class="nav-text">废话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一般做法"><span class="nav-number">2.</span> <span class="nav-text">一般做法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解耦效果"><span class="nav-number">3.</span> <span class="nav-text">解耦效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源代码"><span class="nav-number">4.</span> <span class="nav-text">源代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
