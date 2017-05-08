@@ -294,6 +294,149 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ruby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱鸟人士">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/13/Retrofit2-Gson的基本用法.html" itemprop="url">
+                  Retrofit2+Gson的基本用法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-13T21:43:18+08:00">
+                2017-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/13/Retrofit2-Gson的基本用法.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/13/Retrofit2-Gson的基本用法.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Retrofit基本使用"><a href="#Retrofit基本使用" class="headerlink" title="Retrofit基本使用"></a>Retrofit基本使用</h1><h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>我们来实现一个最基本的请求Json结果的文件的Demo。</p>
+<h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><p>首先新建一个工程，在app的build.gradle中加入以下依赖：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.2.0'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.google.code.gson:gson:2.7'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:converter-gson:2.0.2'</span></div></pre></td></tr></table></figure>
+<p>第一行自然是引入retrofit2啦，<br>由于我们需要解析Json文本，Retrofit为我们提供了一个很方便的工具Converter。我们在获取网络资源后，通常需要对其内容进行解析，这个步骤可以利用线程的解析库来实现，并且Retrofit为几个常见的解析库提供了相应了Converter类。Gson是一个常见的Json解析库，Retrofit为它提供了Converter。<br>第二行和第三行就是分别引入Gson和GsonConverterFactory的，稍后用到这个Converter的时候会再提一下的。</p>
+<p>然后，我们随便上传一个Json文件在GitHub上，这里大家就自己弄啦。</p>
+<p>我传了一个Json文件上去，地址为：<br><code>https://raw.githubusercontent.com/xiaoniaojun/xiaoniaojun.github.io/master/test.json</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"><span class="attr">age</span>: <span class="number">22</span>,</div><div class="line"><span class="attr">name</span>: <span class="string">"Bird"</span>,</div><div class="line"><span class="attr">phoneNumber</span>: <span class="string">"13550626331"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>记下这个地址，后面的构建会用到。<br>注意：这个地址可能随时失效，请大家自己动手上传。</p>
+<h2 id="构建请求接口"><a href="#构建请求接口" class="headerlink" title="构建请求接口"></a>构建请求接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// https://raw.githubusercontent.com/xiaoniaojun/xiaoniaojun.github.io/master/test.json</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GitHub</span> </span>&#123;</div><div class="line">    <span class="meta">@GET</span>(<span class="string">"&#123;userId&#125;/&#123;userId&#125;.github.io/master/&#123;fileName&#125;"</span>)</div><div class="line">    <span class="function">Call&lt;User&gt; <span class="title">results</span><span class="params">(@Path(<span class="string">"userId"</span>)</span> String userId, @<span class="title">Path</span><span class="params">(<span class="string">"fileName"</span>)</span> String fileName)</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>大家可以把目标链接用注释写在上面，方便写代码的时候对照。</p>
+<p><code>@Get</code>注解中编写请求链接的基本结构，其中用{}括起来的，表示替换块(replacation block)，可以在注解的方法中，通过@Path标注的参数，进行替换。<br>这里有两点需要注意，替换块中的字符串需要和<code>@Path</code>参数的字符串相同才能被识别。其次，Call<T>，这个T表示response返回的类型。</p>
+<p>这个接口实现的请求方法，会在之后被用来构造Call<T>对象，而这个Call<T>对象就是封装好的可调用对象，它是后面实际执行请求所需要的关键对象。我们可以使用call进行异步或同步调用。最后，我们会将这一系列步骤串起来总结。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/13/Retrofit2-Gson的基本用法.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/13/Retrofit文档翻译.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1089,7 +1232,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -294,6 +294,165 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/05/08/使用RecyclerView实现底部上拉刷新.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ruby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱鸟人士">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/08/使用RecyclerView实现底部上拉刷新.html" itemprop="url">
+                  使用RecyclerView实现底部上拉刷新
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-08T22:06:20+08:00">
+                2017-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/08/使用RecyclerView实现底部上拉刷新.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/08/使用RecyclerView实现底部上拉刷新.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="使用RecyclerView实现底部上拉刷新"><a href="#使用RecyclerView实现底部上拉刷新" class="headerlink" title="使用RecyclerView实现底部上拉刷新"></a>使用RecyclerView实现底部上拉刷新</h1><p>首先来看一下效果吧：</p>
+<p><img src="http://omkwoeinb.bkt.clouddn.com/QQ20170508-204652-HD2.gif" alt="QQ20170508-204652-HD2"></p>
+<h2 id="onCreateViewHolder"><a href="#onCreateViewHolder" class="headerlink" title="onCreateViewHolder"></a>onCreateViewHolder</h2><p>首先来看一下<code>Adapter</code>中的<code>onCreateViewHolder</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span></span>;</div></pre></td></tr></table></figure>
+<p>我们重点关注viewType这个参数。在onCreateViewHolder回调时，系统会传入这个viewType，表示列表中每个项的View的类型。</p>
+<p>这个viewType是个整形值，默认为0。我们可以通过在Adapter内重写<code>public int getItemViewType(int position)</code>方法来设置viewType。</p>
+<p>这就是在RecyclerView中实现多类型View的关键。</p>
+<h2 id="如何实现上拉刷新"><a href="#如何实现上拉刷新" class="headerlink" title="如何实现上拉刷新"></a>如何实现上拉刷新</h2><p>首先我们要考虑上拉刷新的过程：</p>
+<p>在用户将RecyclerView拉到底部的时候，出现“正在刷新内容”的提示。此时，开始请求新内容并添加至Adapter中的数据容器列表中。</p>
+<p>所以，这个过程里有如下几个关键点：</p>
+<ol>
+<li>如何在列表底部现实“正在刷新内容”的提示View;</li>
+<li>如何在到达列表底部的时候获得通知（回调);</li>
+<li>如何动态地向RecyclerView中添加新的数据项目。</li>
+</ol>
+<p>下面我们就来依次解决每一个关键点。</p>
+<h2 id="在列表底部现实“正在刷新内容”的提示View"><a href="#在列表底部现实“正在刷新内容”的提示View" class="headerlink" title="在列表底部现实“正在刷新内容”的提示View"></a>在列表底部现实“正在刷新内容”的提示View</h2><p>可以这样实现，在底部永远都加入一个显示提示的LoadingMoreView:<br><img src="http://omkwoeinb.bkt.clouddn.com/14942515217318.png" alt=""><br>为此，我们需要在Adapter中修改几个地方：</p>
+<p>在getItemCount()方法中+1，因为添加了一个LoadingMoreView<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 在列表底部添加了一个 View:Lading more</span></div><div class="line">        <span class="keyword">return</span> mItems.size() + <span class="number">1</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>然后，为普通的Item View和LoadingMoreView设置viewType：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VIEW_TYPE_NORMAL = <span class="number">1</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VIEW_TYPE_LOADING_MORE = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="comment">// 复写此方法以确定viewType</span></div><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> type = VIEW_TYPE_NORMAL;</div><div class="line">        <span class="comment">// 如果当前position是列表底部，则为LoadingMoreView</span></div><div class="line">        <span class="keyword">if</span> (position == mItems.size())</div><div class="line">            type = VIEW_TYPE_LOADING_MORE;</div><div class="line">        <span class="keyword">return</span> type;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>然后，还需要为这个LoadingMoreView编写ViewHodler。由于不需要修改其内容，所以写一个最简单的ViewHolder就可以了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadingMoreVH</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LoadingMoreVH</span><span class="params">(View itemView)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>(itemView);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>之后，修改onCreateViewHolder和onBindViewHolder,主要是判断何时该处理不同的View，这里给出示例，大家自己体会一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">if</span> (viewType == VIEW_TYPE_NORMAL) &#123;</div><div class="line">            View view = mInflater.inflate(R.layout.item_zhihu_home_first, parent, <span class="keyword">false</span>);</div><div class="line">            <span class="keyword">final</span> VH holder = <span class="keyword">new</span> VH(view);</div><div class="line">            holder.itemView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                    <span class="keyword">int</span> position = holder.getAdapterPosition();</div><div class="line">                    <span class="keyword">if</span> (mClickListener != <span class="keyword">null</span>) &#123;</div><div class="line">                        mClickListener.onItemClick(position, v, holder);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">            <span class="keyword">return</span> holder;</div><div class="line">            <span class="comment">// 处理LoadingMoreView</span></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            View view = mInflater.inflate(R.layout.item_load_more, parent, <span class="keyword">false</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> LoadingMoreVH(view);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(RecyclerView.ViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">    <span class="comment">// 避开LoadingMoreV</span></div><div class="line">        <span class="keyword">if</span> (position &lt; mItems.size()) &#123;</div><div class="line">            Article item = mItems.get(position);</div><div class="line">            ((VH) holder).img.setImageResource(item.getImgRes());</div><div class="line">            ((VH) holder).tvTitle.setText(item.getTitle());</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="在到达列表底部的时候获得回调-amp-amp-动态地向RecyclerView中添加新的数据项目"><a href="#在到达列表底部的时候获得回调-amp-amp-动态地向RecyclerView中添加新的数据项目" class="headerlink" title="在到达列表底部的时候获得回调 &amp;&amp; 动态地向RecyclerView中添加新的数据项目"></a>在到达列表底部的时候获得回调 &amp;&amp; 动态地向RecyclerView中添加新的数据项目</h2><p>RecyclerView并没有为我们提供类似的回调，所以我们需要手动实现它。<br>这里我们利用OnScrollListener()来实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 在Activity中</span></div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">boolean</span> loading = <span class="keyword">true</span>;</div><div class="line"><span class="keyword">int</span> pastVisibleItems, visibleItemCount, totalItemCount;</div><div class="line"></div><div class="line">mRecyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</div><div class="line">                <span class="keyword">super</span>.onScrolled(recyclerView, dx, dy);</div><div class="line">                mScrollTotal += dy;</div><div class="line">                </div><div class="line">                <span class="keyword">if</span> (dy &gt; <span class="number">0</span>) &#123;</div><div class="line">                    visibleItemCount = mLayoutmanager.getChildCount();</div><div class="line">                    totalItemCount = mLayoutmanager.getItemCount();</div><div class="line">                    pastVisibleItems = mLayoutmanager.findFirstVisibleItemPosition();</div><div class="line"></div><div class="line">                    <span class="keyword">if</span> (loading) &#123;</div><div class="line">                        <span class="keyword">if</span> (visibleItemCount + pastVisibleItems &gt;= totalItemCount) &#123;</div><div class="line">                            <span class="comment">// 滚动到列表底部</span></div><div class="line">                            loading = <span class="keyword">false</span>;</div><div class="line">                            <span class="comment">// 产生回调</span></div><div class="line">                            onScrollReachedBottom();</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+<p>在onScrolled()回调中，我们通过findFirstVisibleItemPosition和getChildCount()可以算出当前屏幕中，最底部项目的索引号。只需要将它与Adapter中的数据列表元素总数一比较，就可以得出是否滚动到了RecyclerView底部。</p>
+<p>我们再写一个接口作为回调：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">OnScrollReachedBottomListener</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onScrollReachedBottom</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后在当前Activity中实现这个接口就可以得到回调了。<br>下面是我的demo中的回调方法，在其中执行请求(网络)新数据，并通过：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// RecyclerView滚动到最后一个元素</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollReachedBottom</span><span class="params">()</span> </span>&#123;</div><div class="line">        Log.v(TAG,<span class="string">"到达列表最后一个元素。"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// 模拟请求延迟</span></div><div class="line">        Handler handler = <span class="keyword">new</span> Handler();</div><div class="line">        handler.postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="comment">// 产生mock数据</span></div><div class="line">                ArrayList&lt;Article&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</div><div class="line">                    <span class="keyword">int</span> index = i % <span class="number">2</span>;</div><div class="line">                    Article article = <span class="keyword">new</span> Article(mTitles[index+<span class="number">5</span>], mImgRes[index]);</div><div class="line">                    list.add(article);</div><div class="line">                &#125;</div><div class="line">                <span class="comment">// 注意这个 -1，不要将数据插入到“正在载入”提示View之后去了</span></div><div class="line">                <span class="keyword">int</span> insertPosition = mAdapter.getItemCount() - <span class="number">1</span>;</div><div class="line">                mAdapter.addDatas(list);</div><div class="line">                <span class="comment">// 使用该方法更新数据，可以保持当前用户的滚动位置</span></div><div class="line">                mAdapter.notifyItemInserted(insertPosition);</div><div class="line">                </div><div class="line">                loading = <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;,<span class="number">300</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>为了要在Adapter中插入新数据，需要在Adapter中添加一个addDatas()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addDatas</span><span class="params">(List&lt;Article&gt; items)</span> </span>&#123;</div><div class="line">        mItems.addAll(items);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/04/22/一个练手项目.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1512,149 +1671,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/03/13/Retrofit2-Gson的基本用法.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ruby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="爱鸟人士">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/13/Retrofit2-Gson的基本用法.html" itemprop="url">
-                  Retrofit2+Gson的基本用法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-13T21:43:18+08:00">
-                2017-03-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/13/Retrofit2-Gson的基本用法.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/13/Retrofit2-Gson的基本用法.html" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Retrofit基本使用"><a href="#Retrofit基本使用" class="headerlink" title="Retrofit基本使用"></a>Retrofit基本使用</h1><h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>我们来实现一个最基本的请求Json结果的文件的Demo。</p>
-<h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><p>首先新建一个工程，在app的build.gradle中加入以下依赖：</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:retrofit:2.2.0'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.google.code.gson:gson:2.7'</span></div><div class="line"><span class="keyword">compile</span> <span class="string">'com.squareup.retrofit2:converter-gson:2.0.2'</span></div></pre></td></tr></table></figure>
-<p>第一行自然是引入retrofit2啦，<br>由于我们需要解析Json文本，Retrofit为我们提供了一个很方便的工具Converter。我们在获取网络资源后，通常需要对其内容进行解析，这个步骤可以利用线程的解析库来实现，并且Retrofit为几个常见的解析库提供了相应了Converter类。Gson是一个常见的Json解析库，Retrofit为它提供了Converter。<br>第二行和第三行就是分别引入Gson和GsonConverterFactory的，稍后用到这个Converter的时候会再提一下的。</p>
-<p>然后，我们随便上传一个Json文件在GitHub上，这里大家就自己弄啦。</p>
-<p>我传了一个Json文件上去，地址为：<br><code>https://raw.githubusercontent.com/xiaoniaojun/xiaoniaojun.github.io/master/test.json</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"><span class="attr">age</span>: <span class="number">22</span>,</div><div class="line"><span class="attr">name</span>: <span class="string">"Bird"</span>,</div><div class="line"><span class="attr">phoneNumber</span>: <span class="string">"13550626331"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>记下这个地址，后面的构建会用到。<br>注意：这个地址可能随时失效，请大家自己动手上传。</p>
-<h2 id="构建请求接口"><a href="#构建请求接口" class="headerlink" title="构建请求接口"></a>构建请求接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// https://raw.githubusercontent.com/xiaoniaojun/xiaoniaojun.github.io/master/test.json</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GitHub</span> </span>&#123;</div><div class="line">    <span class="meta">@GET</span>(<span class="string">"&#123;userId&#125;/&#123;userId&#125;.github.io/master/&#123;fileName&#125;"</span>)</div><div class="line">    <span class="function">Call&lt;User&gt; <span class="title">results</span><span class="params">(@Path(<span class="string">"userId"</span>)</span> String userId, @<span class="title">Path</span><span class="params">(<span class="string">"fileName"</span>)</span> String fileName)</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>大家可以把目标链接用注释写在上面，方便写代码的时候对照。</p>
-<p><code>@Get</code>注解中编写请求链接的基本结构，其中用{}括起来的，表示替换块(replacation block)，可以在注解的方法中，通过@Path标注的参数，进行替换。<br>这里有两点需要注意，替换块中的字符串需要和<code>@Path</code>参数的字符串相同才能被识别。其次，Call<T>，这个T表示response返回的类型。</p>
-<p>这个接口实现的请求方法，会在之后被用来构造Call<T>对象，而这个Call<T>对象就是封装好的可调用对象，它是后面实际执行请求所需要的关键对象。我们可以使用call进行异步或同步调用。最后，我们会将这一系列步骤串起来总结。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/13/Retrofit2-Gson的基本用法.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1704,7 +1720,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

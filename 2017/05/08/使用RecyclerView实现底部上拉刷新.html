@@ -1,0 +1,993 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="使用RecyclerView实现底部上拉刷新首先来看一下效果吧：
+
+onCreateViewHolder首先来看一下Adapter中的onCreateViewHolder方法：
+1public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType);
+我们重点关注viewType这个参数。在onCreat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用RecyclerView实现底部上拉刷新">
+<meta property="og:url" content="http://xiaoniaojun.github.io/2017/05/08/使用RecyclerView实现底部上拉刷新.html">
+<meta property="og:site_name" content="爱鸟人士">
+<meta property="og:description" content="使用RecyclerView实现底部上拉刷新首先来看一下效果吧：
+
+onCreateViewHolder首先来看一下Adapter中的onCreateViewHolder方法：
+1public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType);
+我们重点关注viewType这个参数。在onCreat">
+<meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/QQ20170508-204652-HD2.gif">
+<meta property="og:image" content="http://omkwoeinb.bkt.clouddn.com/14942515217318.png">
+<meta property="og:updated_time" content="2017-05-08T14:09:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用RecyclerView实现底部上拉刷新">
+<meta name="twitter:description" content="使用RecyclerView实现底部上拉刷新首先来看一下效果吧：
+
+onCreateViewHolder首先来看一下Adapter中的onCreateViewHolder方法：
+1public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType);
+我们重点关注viewType这个参数。在onCreat">
+<meta name="twitter:image" content="http://omkwoeinb.bkt.clouddn.com/QQ20170508-204652-HD2.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6395317980992898000',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://xiaoniaojun.github.io/2017/05/08/使用RecyclerView实现底部上拉刷新.html"/>
+
+
+
+
+
+  <title> 使用RecyclerView实现底部上拉刷新 | 爱鸟人士 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">爱鸟人士</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">for my bird</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://xiaoniaojun.github.io/2017/05/08/使用RecyclerView实现底部上拉刷新.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ruby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://omkwoeinb.bkt.clouddn.com/stan.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="爱鸟人士">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用RecyclerView实现底部上拉刷新
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-08T22:06:20+08:00">
+                2017-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/08/使用RecyclerView实现底部上拉刷新.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/08/使用RecyclerView实现底部上拉刷新.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="使用RecyclerView实现底部上拉刷新"><a href="#使用RecyclerView实现底部上拉刷新" class="headerlink" title="使用RecyclerView实现底部上拉刷新"></a>使用RecyclerView实现底部上拉刷新</h1><p>首先来看一下效果吧：</p>
+<p><img src="http://omkwoeinb.bkt.clouddn.com/QQ20170508-204652-HD2.gif" alt="QQ20170508-204652-HD2"></p>
+<h2 id="onCreateViewHolder"><a href="#onCreateViewHolder" class="headerlink" title="onCreateViewHolder"></a>onCreateViewHolder</h2><p>首先来看一下<code>Adapter</code>中的<code>onCreateViewHolder</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span></span>;</div></pre></td></tr></table></figure>
+<p>我们重点关注viewType这个参数。在onCreateViewHolder回调时，系统会传入这个viewType，表示列表中每个项的View的类型。</p>
+<p>这个viewType是个整形值，默认为0。我们可以通过在Adapter内重写<code>public int getItemViewType(int position)</code>方法来设置viewType。</p>
+<p>这就是在RecyclerView中实现多类型View的关键。</p>
+<h2 id="如何实现上拉刷新"><a href="#如何实现上拉刷新" class="headerlink" title="如何实现上拉刷新"></a>如何实现上拉刷新</h2><p>首先我们要考虑上拉刷新的过程：</p>
+<p>在用户将RecyclerView拉到底部的时候，出现“正在刷新内容”的提示。此时，开始请求新内容并添加至Adapter中的数据容器列表中。</p>
+<p>所以，这个过程里有如下几个关键点：</p>
+<ol>
+<li>如何在列表底部现实“正在刷新内容”的提示View;</li>
+<li>如何在到达列表底部的时候获得通知（回调);</li>
+<li>如何动态地向RecyclerView中添加新的数据项目。</li>
+</ol>
+<p>下面我们就来依次解决每一个关键点。</p>
+<h2 id="在列表底部现实“正在刷新内容”的提示View"><a href="#在列表底部现实“正在刷新内容”的提示View" class="headerlink" title="在列表底部现实“正在刷新内容”的提示View"></a>在列表底部现实“正在刷新内容”的提示View</h2><p>可以这样实现，在底部永远都加入一个显示提示的LoadingMoreView:<br><img src="http://omkwoeinb.bkt.clouddn.com/14942515217318.png" alt=""><br>为此，我们需要在Adapter中修改几个地方：</p>
+<p>在getItemCount()方法中+1，因为添加了一个LoadingMoreView<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 在列表底部添加了一个 View:Lading more</span></div><div class="line">        <span class="keyword">return</span> mItems.size() + <span class="number">1</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>然后，为普通的Item View和LoadingMoreView设置viewType：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VIEW_TYPE_NORMAL = <span class="number">1</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VIEW_TYPE_LOADING_MORE = <span class="number">2</span>;</div><div class="line"></div><div class="line"><span class="comment">// 复写此方法以确定viewType</span></div><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> type = VIEW_TYPE_NORMAL;</div><div class="line">        <span class="comment">// 如果当前position是列表底部，则为LoadingMoreView</span></div><div class="line">        <span class="keyword">if</span> (position == mItems.size())</div><div class="line">            type = VIEW_TYPE_LOADING_MORE;</div><div class="line">        <span class="keyword">return</span> type;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>然后，还需要为这个LoadingMoreView编写ViewHodler。由于不需要修改其内容，所以写一个最简单的ViewHolder就可以了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadingMoreVH</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LoadingMoreVH</span><span class="params">(View itemView)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>(itemView);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>之后，修改onCreateViewHolder和onBindViewHolder,主要是判断何时该处理不同的View，这里给出示例，大家自己体会一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</div><div class="line"></div><div class="line"></div><div class="line">        <span class="keyword">if</span> (viewType == VIEW_TYPE_NORMAL) &#123;</div><div class="line">            View view = mInflater.inflate(R.layout.item_zhihu_home_first, parent, <span class="keyword">false</span>);</div><div class="line">            <span class="keyword">final</span> VH holder = <span class="keyword">new</span> VH(view);</div><div class="line">            holder.itemView.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</div><div class="line">                    <span class="keyword">int</span> position = holder.getAdapterPosition();</div><div class="line">                    <span class="keyword">if</span> (mClickListener != <span class="keyword">null</span>) &#123;</div><div class="line">                        mClickListener.onItemClick(position, v, holder);</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">            <span class="keyword">return</span> holder;</div><div class="line">            <span class="comment">// 处理LoadingMoreView</span></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            View view = mInflater.inflate(R.layout.item_load_more, parent, <span class="keyword">false</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> LoadingMoreVH(view);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(RecyclerView.ViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">    <span class="comment">// 避开LoadingMoreV</span></div><div class="line">        <span class="keyword">if</span> (position &lt; mItems.size()) &#123;</div><div class="line">            Article item = mItems.get(position);</div><div class="line">            ((VH) holder).img.setImageResource(item.getImgRes());</div><div class="line">            ((VH) holder).tvTitle.setText(item.getTitle());</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="在到达列表底部的时候获得回调-amp-amp-动态地向RecyclerView中添加新的数据项目"><a href="#在到达列表底部的时候获得回调-amp-amp-动态地向RecyclerView中添加新的数据项目" class="headerlink" title="在到达列表底部的时候获得回调 &amp;&amp; 动态地向RecyclerView中添加新的数据项目"></a>在到达列表底部的时候获得回调 &amp;&amp; 动态地向RecyclerView中添加新的数据项目</h2><p>RecyclerView并没有为我们提供类似的回调，所以我们需要手动实现它。<br>这里我们利用OnScrollListener()来实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 在Activity中</span></div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">boolean</span> loading = <span class="keyword">true</span>;</div><div class="line"><span class="keyword">int</span> pastVisibleItems, visibleItemCount, totalItemCount;</div><div class="line"></div><div class="line">mRecyclerView.addOnScrollListener(<span class="keyword">new</span> RecyclerView.OnScrollListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrolled</span><span class="params">(RecyclerView recyclerView, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</div><div class="line">                <span class="keyword">super</span>.onScrolled(recyclerView, dx, dy);</div><div class="line">                mScrollTotal += dy;</div><div class="line">                </div><div class="line">                <span class="keyword">if</span> (dy &gt; <span class="number">0</span>) &#123;</div><div class="line">                    visibleItemCount = mLayoutmanager.getChildCount();</div><div class="line">                    totalItemCount = mLayoutmanager.getItemCount();</div><div class="line">                    pastVisibleItems = mLayoutmanager.findFirstVisibleItemPosition();</div><div class="line"></div><div class="line">                    <span class="keyword">if</span> (loading) &#123;</div><div class="line">                        <span class="keyword">if</span> (visibleItemCount + pastVisibleItems &gt;= totalItemCount) &#123;</div><div class="line">                            <span class="comment">// 滚动到列表底部</span></div><div class="line">                            loading = <span class="keyword">false</span>;</div><div class="line">                            <span class="comment">// 产生回调</span></div><div class="line">                            onScrollReachedBottom();</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div></pre></td></tr></table></figure>
+<p>在onScrolled()回调中，我们通过findFirstVisibleItemPosition和getChildCount()可以算出当前屏幕中，最底部项目的索引号。只需要将它与Adapter中的数据列表元素总数一比较，就可以得出是否滚动到了RecyclerView底部。</p>
+<p>我们再写一个接口作为回调：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">OnScrollReachedBottomListener</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onScrollReachedBottom</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后在当前Activity中实现这个接口就可以得到回调了。<br>下面是我的demo中的回调方法，在其中执行请求(网络)新数据，并通过：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// RecyclerView滚动到最后一个元素</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollReachedBottom</span><span class="params">()</span> </span>&#123;</div><div class="line">        Log.v(TAG,<span class="string">"到达列表最后一个元素。"</span>);</div><div class="line"></div><div class="line">        <span class="comment">// 模拟请求延迟</span></div><div class="line">        Handler handler = <span class="keyword">new</span> Handler();</div><div class="line">        handler.postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="comment">// 产生mock数据</span></div><div class="line">                ArrayList&lt;Article&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</div><div class="line">                    <span class="keyword">int</span> index = i % <span class="number">2</span>;</div><div class="line">                    Article article = <span class="keyword">new</span> Article(mTitles[index+<span class="number">5</span>], mImgRes[index]);</div><div class="line">                    list.add(article);</div><div class="line">                &#125;</div><div class="line">                <span class="comment">// 注意这个 -1，不要将数据插入到“正在载入”提示View之后去了</span></div><div class="line">                <span class="keyword">int</span> insertPosition = mAdapter.getItemCount() - <span class="number">1</span>;</div><div class="line">                mAdapter.addDatas(list);</div><div class="line">                <span class="comment">// 使用该方法更新数据，可以保持当前用户的滚动位置</span></div><div class="line">                mAdapter.notifyItemInserted(insertPosition);</div><div class="line">                </div><div class="line">                loading = <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;,<span class="number">300</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>为了要在Adapter中插入新数据，需要在Adapter中添加一个addDatas()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addDatas</span><span class="params">(List&lt;Article&gt; items)</span> </span>&#123;</div><div class="line">        mItems.addAll(items);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/weixin.png" alt="Ruby WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zhifubao.png" alt="Ruby Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/22/一个练手项目.html" rel="next" title="一个练手项目">
+                <i class="fa fa-chevron-left"></i> 一个练手项目
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/05/08/使用RecyclerView实现底部上拉刷新.html"
+           data-title="使用RecyclerView实现底部上拉刷新" data-url="http://xiaoniaojun.github.io/2017/05/08/使用RecyclerView实现底部上拉刷新.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://omkwoeinb.bkt.clouddn.com/stan.jpg"
+               alt="Ruby" />
+          <p class="site-author-name" itemprop="name">Ruby</p>
+           
+              <p class="site-description motion-element" itemprop="description">Share I can<br>向无私奉献自己知识的先辈们致敬</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xiaoniaojun" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用RecyclerView实现底部上拉刷新"><span class="nav-number">1.</span> <span class="nav-text">使用RecyclerView实现底部上拉刷新</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#onCreateViewHolder"><span class="nav-number">1.1.</span> <span class="nav-text">onCreateViewHolder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何实现上拉刷新"><span class="nav-number">1.2.</span> <span class="nav-text">如何实现上拉刷新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在列表底部现实“正在刷新内容”的提示View"><span class="nav-number">1.3.</span> <span class="nav-text">在列表底部现实“正在刷新内容”的提示View</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在到达列表底部的时候获得回调-amp-amp-动态地向RecyclerView中添加新的数据项目"><span class="nav-number">1.4.</span> <span class="nav-text">在到达列表底部的时候获得回调 && 动态地向RecyclerView中添加新的数据项目</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ruby</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xiaoniaojun"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+  
+    <script src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script>
+</body>
+</html>
